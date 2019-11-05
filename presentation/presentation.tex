@@ -1,0 +1,265 @@
+\documentclass{beamer}
+
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{caption}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usetheme{metropolis}
+
+\title{Timetabling}
+\author{Conor Newton}
+
+\DeclareMathOperator{\obj}{obj}
+\DeclareMathOperator{\students}{students}
+\DeclareMathOperator{\staff}{staff}
+\DeclareMathOperator{\ts}{timeslot}
+\DeclareMathOperator{\room}{room}
+\DeclareMathOperator{\prooms}{preferred\_rooms}
+\DeclareMathOperator{\module}{module}
+\DeclareMathOperator{\capacity}{capacity}
+\DeclareMathOperator{\dept}{dept}
+\DeclareMathOperator{\unv}{unavailable}
+\DeclareMathOperator{\pathwayone}{pathway\_one}
+\DeclareMathOperator{\act}{activities}
+\DeclareMathOperator{\dayow}{day}
+\DeclareMathOperator{\blame}{blame}
+
+
+\usepackage{listings}
+
+\lstnewenvironment{pseudo}[1][]{
+	\minipage{\linewidth}
+	\lstset{ %this is the stype
+		keywordstyle=\color{blue}, %set keyword colour
+		mathescape=true, %allow use of math mode within code
+		keywords={FOR, IF, END, VAR, CONST, RETURN, DO, TRUE, FALSE, FUNCTION, AS, SUB, THEN, WHILE, NOT, ELSE}, %keywords for pseudo
+		tabsize=4, %make whitespace readable
+		basicstyle=\ttfamily\small, %use courier font
+		title={#1}, %title takes first parameter
+		frame=tB, %put it in a pretty box
+		numbers=left, %force line numbers in left margin
+		numberstyle=\ttfamily, %use courier font
+	}
+}
+{\endminipage}
+
+
+\begin{document}
+\begin{frame}
+	\titlepage
+\end{frame}
+
+\begin{frame}
+	\frametitle{Introduction}
+	
+	What is a timetable?
+	
+	\begin{itemize}
+		\item Given a set of activities, a set of rooms, and a range of times.
+		\item A timetable is a choice of timeslot and room for each activity
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{Introduction}
+	In practice, we have many more requirements than this.
+	
+	Some other things to consider:
+	
+	\begin{itemize}
+		\item Students
+		\item Staff
+		\item Room capacity
+		\item Equipment Requirements
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Hard \& Soft Constraints}
+	Hard-Constraints
+	
+	\begin{itemize}
+		\item Our solution should have zero hard-constraint violations.
+	\end{itemize}
+
+	Soft-Constraints
+	
+	\begin{itemize}
+		\item We aim to minimize the number of soft-constraint violations.
+	\end{itemize}
+	
+\end{frame}
+
+\begin{frame}
+	\frametitle{Hard \& Soft Constraints Examples}
+	Examples of Hard-Constraints
+	
+	\begin{itemize}
+		\item Only one activity in a room at a time.
+		
+		\item The capacity of a chosen room must be greater than the number of students on an activity
+		
+		\item Equipment Requirements
+	\end{itemize}
+	
+	Examples Soft-Constraints
+	
+	\begin{itemize}
+		\item Student activity clashes
+		\item Lunch Breaks
+		\item Preferred rooms
+	\end{itemize}
+	
+\end{frame}
+
+\begin{frame}
+	\frametitle{Our Approach}
+	
+	\begin{itemize}
+		\item Stage 1 - Generate initial solution satisfying the hard constraints
+		\item Stage 2 - Continuously make improvements to our existing solution
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Stage 1 - Backtracking}
+	To generate our initial solution we make use of a backtracking algorithm.
+	
+	\begin{itemize}
+		\item Incrementally builds a solution, by looping through the activities and assigning them timeslots \& rooms.
+		\item When the solution cannot be extended any further it will "backtrack"
+	\end{itemize}
+	
+\end{frame}
+
+\begin{frame}
+	\frametitle{Stage 2 - Optimization}
+	What we need?
+	
+	\begin{itemize}
+		\item An initial solution.
+		\item Objective function.
+		\item Neighbourhood operators.
+		\item Optimization algorithm (Simulated Annealing/Tabu Search).
+	\end{itemize}
+	
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{Stage 2 - Optimization (Objective function)}
+\begin{block}{}
+	\begin{itemize}
+		\item An objective function gives a score to a timetable (lower is better).
+		
+		\item It should consider soft-constraint violations
+	\end{itemize}
+\end{block}
+	\begin{block}{}
+	\begin{equation*}
+	\obj(A) = w_1\cdot f_1(A) + w_2 \cdot f_2(A) + w_3 \cdot f_3(A)
+	\end{equation*}
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Stage 2 - Optimization (Neighbourhood operators)}
+	
+	What are neighbourhood operators?
+	
+	\begin{itemize}
+		\item Allows us to move to a different solution.
+	\end{itemize}
+	
+	We make use of two neighbourhood operators
+	
+	\begin{itemize}
+		\item Simple Swaps 
+		\item Kempe Swaps
+	\end{itemize}
+
+	Both are commonly used together for timetabling problems.
+\end{frame}
+
+\begin{frame}
+	\frametitle{Stage 2 - Optimization (Neighbourhood operators)}
+	
+	Two kinds of Simple Swaps
+	
+	\begin{itemize}
+		\item Choose two random activities
+		\item Swap their time and location
+	\end{itemize}
+
+	Alternatively,
+	
+	\begin{itemize}
+		\item Choose a random activity and new free timeslot and room
+		\item Move an activity to this room and timeslot
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Stage 2 - Optimization (Neighbourhood operators)}
+	
+	Kempe Swaps are a bit more involved...
+	
+		\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.75]{kempe_swap.png}
+	\end{figure}
+
+\end{frame}
+
+\begin{frame}
+	\frametitle{Stage 2 - Optimization (Solution Space)}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.50]{solution_space.png}
+	\end{figure}
+	
+\end{frame}
+
+\begin{frame}
+	\frametitle{Stage 2 - Optimization (Simulated Annealing)}
+	
+	What is simulated annealing?
+	\begin{itemize}
+		\item A metaheurstic for finding the global minimum of a function.
+		\item Uses probability to avoid getting stuck in local minimums.
+	\end{itemize}
+
+	How it works:
+	
+	\begin{enumerate}
+		
+		\item We choose a random neighbouring timetable.
+		\item If it's has a lower score, we set it as our current solution.
+		\item Otherwise, we set it as our current solution with probability $\exp(\frac{current\_score - new\_score}{temp})$
+		\item We set $temp = temp * cooling\_rate$
+		\item We repeat these steps until $temp$ falls below a  value.
+	\end{enumerate}
+	
+\end{frame}
+
+\begin{frame}
+	\frametitle{Results \& Implementation}
+	
+	\begin{itemize}
+		\item Implemented in C++
+		\item Produces a solution with an objective score of $< 1000$ in less than 10 minutes.
+		\item Produces a solution with an objective score of $< 100$ after 35 minutes.
+		\item The data set had about $18000$ students, $3000$ activities, $600$ rooms.
+		\item Used a list of constraints that represented the university's requirements.
+		
+		\item There are still many more improvements for to be made!
+	\end{itemize}
+\end{frame}
+
+
+\end{document}
+	
