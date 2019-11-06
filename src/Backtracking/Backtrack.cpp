@@ -1,7 +1,7 @@
 #include "Backtrack.hpp"
 
 int next_timeslot(Activities a, Students s, Teachers t) {
-    
+
 }
 
 bool backtrack(Activities a, Students s, Teachers t, Rooms r) {
@@ -10,9 +10,6 @@ bool backtrack(Activities a, Students s, Teachers t, Rooms r) {
     
 
     while (activity_index < a.size()) {
-
-        
-
         
     }
 

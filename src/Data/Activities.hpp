@@ -20,7 +20,9 @@ struct Activity {
 	std::vector<int> preferred_rooms;        //these should be sorted in order of size
 
 	int timeslot = -1;
-	int room = -1;                                
+	int room = -1;
+
+	std::string to_string();                                
 };
 
 class Activities {

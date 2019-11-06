@@ -1,6 +1,11 @@
 #include "Activities.hpp"
 #include "Data.hpp"
 
+std::string Activity::to_string() {
+    //TODO: implement
+    return "";
+}
+
 Activities::Activities(const int& no_rooms) : data(), soft_clash_matrix(-1), hard_clash_matrix(false), timetable(NO_TS, no_rooms) {
     
 }

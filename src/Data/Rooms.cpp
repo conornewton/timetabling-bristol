@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <sstream>
+#include <iostream>
 
 
 std::string Room::to_string() {
@@ -40,7 +41,8 @@ Rooms::Rooms() {
         r.Capacity = std::stoi(values[3]);
         r.Bookable = true;
 
-		if (values[4] == "0") {
+		if (values[4][0] == '0') {
+			std::cout << "false" << std::endl;
 			r.Bookable = false;
 		}
 
