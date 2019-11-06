@@ -1,4 +1,4 @@
-#include "CSV/CSV.hpp"
+#include "CSV.hpp"
 
 #include <vector>
 

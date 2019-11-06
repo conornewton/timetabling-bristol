@@ -3,8 +3,8 @@
 #include <string>
 #include <vector>
 
-#include "Matrices/SparseMatrix.hpp"
-#include "Matricies/Matrix.hpp"
+#include "../Matricies/SparseMatrix.hpp"
+#include "../Matricies/Matrix.hpp"
 
 class Activity {
     std::string ID;

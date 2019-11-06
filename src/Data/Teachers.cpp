@@ -1,4 +1,4 @@
-#include "Data/Teachers.hpp"
+#include "Teachers.hpp"
 
 Teachers::Teachers() {
 

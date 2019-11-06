@@ -3,7 +3,7 @@
 #include <vector>
 #include <string>
 
-class Student{
+struct Student {
     std::string ID;
     std::vector<int> activities;
 };
@@ -11,6 +11,7 @@ class Student{
 class Students {
 public:
     Students();
+
     Student& operator[](const int& x);
     const int size();
 

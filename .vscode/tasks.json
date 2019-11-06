@@ -6,19 +6,10 @@
         {
             "type": "shell",
             "label": "g++ build active file",
-            "command": "/usr/bin/g++",
-            "args": [
-                "-g",
-                "${file}",
-                "-o",
-                "/home/conor/projects/timetabling/bin/timetabling"
-            ],
+            "command": "make",
             "options": {
                 "cwd": "/usr/bin"
             },
-            "problemMatcher": [
-                "$gcc"
-            ],
             "group": {
                 "kind": "build",
                 "isDefault": true

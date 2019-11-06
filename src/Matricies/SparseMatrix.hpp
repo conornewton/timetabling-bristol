@@ -19,9 +19,9 @@ class SparseMatrix
         {   
             auto key    = getKey(a, b); 
             auto search = data.find(key);
-            return (search != data.end())
-                       ? search->second;
-                       : default_val;
+            if (search != data.end())
+                return search->second;
+            return default_val;
         }   
 
         void set(int a, int b, T const& val)
