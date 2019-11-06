@@ -4,6 +4,28 @@
 #include "../CSV/CSV.hpp"
 
 #include <unordered_map>
+#include <sstream>
+
+std::string Student::to_string() {
+	std::stringstream s;
+	s << "ID: " << ID << "\nActivities: ";
+	for (int a : activities) {
+		s << a << ", ";
+	}
+
+	return s.str();
+}
+
+std::string Students::to_string() {
+	std::stringstream s;
+
+	for (Student& st: data) {
+		s << st.to_string();
+		s << "\n";
+	}
+
+	return s.str();
+}
 
 Students::Students() {
     std::unordered_map<std::string, int> student_id_index;
@@ -18,13 +40,6 @@ Students::Students() {
 
 		data.push_back(s);
 		student_id_index[values[0]] = data.size() - 1;
-	}
-
-	CSV csv_enrollment(FILEPATH_ENROLEMENT);
-
-	while (csv_enrollment.next_line()) {
-		auto values = csv_enrollment.get_values();
-		//enroll_student(students, activities, values[0], values[1]);
 	}
 }
 

@@ -1,4 +1,4 @@
-CC=g++
+CC=g++ -std=c++17
 
 timetabling: main.o activities.o rooms.o students.o teachers.o csv.o
 	$(CC) bin/main.o bin/Activities.o bin/Rooms.o bin/Students.o bin/Teachers.o bin/CSV.o -o bin/timetabling
