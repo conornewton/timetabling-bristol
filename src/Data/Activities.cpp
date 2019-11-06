@@ -25,3 +25,17 @@ void Activities::set(const int& activity, int& timeslot, int& room) {
     timetable.set(timeslot, room, activity);
 }
 
+int Activities::size() {
+    return data.size();
+}
+
+int Activities::id_to_index(const std::string& id) {
+	auto search = id_to_index_map.find(id);
+
+	if (search != id_to_index_map.end()) {
+		return search->second;
+	}
+
+	return -1;
+}
+

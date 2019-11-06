@@ -1,10 +1,13 @@
 CC=g++ -std=c++17
 
-timetabling: main.o activities.o rooms.o students.o teachers.o csv.o
-	$(CC) bin/main.o bin/Activities.o bin/Rooms.o bin/Students.o bin/Teachers.o bin/CSV.o -o bin/timetabling
+timetabling: main.o activities.o rooms.o students.o teachers.o csv.o backtrack.o
+	$(CC) bin/main.o bin/Activities.o bin/Rooms.o bin/Students.o bin/Teachers.o bin/CSV.o bin/Backtrack.o -o bin/timetabling
 
 main.o: src/main.cpp
 	$(CC) -c src/main.cpp -o bin/main.o
+
+backtrack.o: src/Backtracking/Backtrack.cpp src/Backtracking/Backtrack.hpp
+	$(CC) -c src/Backtracking/Backtrack.cpp -o bin/Backtrack.o
 
 activities.o: src/Data/Activities.cpp src/Data/Activities.hpp src/Matrices/Matrix.hpp src/Matrices/SparseMatrix.hpp
 	$(CC) -c src/Data/Activities.cpp -o bin/Activities.o

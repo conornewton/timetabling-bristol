@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <string>
+#include <unordered_map>
 
 struct Teacher {
     std::string ID;
@@ -16,8 +17,11 @@ public:
 Teachers();
 Teacher& operator[](const int& a);
 int size();
+int id_to_index(const std::string& id);
+
 
 private:
 std::vector<Teacher> data;
+std::unordered_map<std::string, int> id_to_index_map;
 
 };

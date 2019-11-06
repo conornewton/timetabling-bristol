@@ -23,3 +23,14 @@ Teacher& Teachers::operator[](const int& a) {
 int Teachers::size() {
     return data.size();
 }
+
+
+int Teachers::id_to_index(const std::string& id) {
+	auto search = id_to_index_map.find(id);
+
+	if (search != id_to_index_map.end()) {
+		return search->second;
+	}
+
+	return -1;
+}

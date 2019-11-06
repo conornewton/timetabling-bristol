@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <sstream>
 
+
 std::string Room::to_string() {
 	std::stringstream s;
 
@@ -38,7 +39,7 @@ Rooms::Rooms() {
         r.Dept = values[2];
         r.Capacity = std::stoi(values[3]);
         r.Bookable = true;
-		std::cout << values[4];
+
 		if (values[4] == "0") {
 			r.Bookable = false;
 		}
@@ -55,4 +56,14 @@ Room& Rooms::operator[](const int& a) {
 
 int Rooms::size() {
     return data.size();
+}
+
+int Rooms::id_to_index(const std::string& id) {
+	auto search = id_to_index_map.find(id);
+
+	if (search != id_to_index_map.end()) {
+		return search->second;
+	}
+
+	return -1;
 }

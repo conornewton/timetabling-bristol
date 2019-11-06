@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 #include "../Matrices/SparseMatrix.hpp"
 #include "../Matrices/Matrix.hpp"
@@ -10,8 +11,6 @@ struct Activity {
     std::string ID;
 	std::string name;
 	std::string type;                        //Lecture/Problem Class/Tutorial/Practical
-
-	int module;                              //index of the Module that this lecture is a part of
 
 	int number_of_hours = 1;                 //labs usually are longer than a single hour
 
@@ -33,11 +32,15 @@ public:
 	int  soft_clash(const int& a, const int& b);              //tells us the number of students on both activities a and b
 	bool hard_clash(const int& a, const int& b);              //tells us whether courses a and b can be scheduled at the same time
 	int  get(const int& timeslot, const int& room);           //tells us which course is taking place in the specified timeslot and room
-
 	void set(const int& activity, int& timeslot, int& room);  //sets the timeslot and room of the specified activity
 
+	int size();
+
+	int id_to_index(const std::string& id);
+	
 private:
     std::vector<Activity> data;
+	std::unordered_map<std::string, int> id_to_index_map;
 
 	SparseMatrix<int> soft_clash_matrix;
 	SparseMatrix<bool> hard_clash_matrix;
