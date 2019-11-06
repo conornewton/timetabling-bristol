@@ -6,7 +6,7 @@ timetabling: main.o activities.o rooms.o students.o teachers.o csv.o
 main.o: src/main.cpp
 	$(CC) -c src/main.cpp -o bin/main.o
 
-activities.o: src/Data/Activities.cpp src/Data/Activities.hpp
+activities.o: src/Data/Activities.cpp src/Data/Activities.hpp src/Matrices/Matrix.hpp src/Matrices/SparseMatrix.hpp
 	$(CC) -c src/Data/Activities.cpp -o bin/Activities.o
 
 rooms.o: src/Data/Rooms.cpp src/Data/Rooms.hpp

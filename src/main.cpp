@@ -9,9 +9,7 @@
 //We can do this by writing out the data from the other program
 //Ideally we want to be using only four files
 
-
 //TODO: every room appears to be bookable
-
 int main() {
 
     //We use these containers for all of our data throughout

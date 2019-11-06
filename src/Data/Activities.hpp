@@ -3,10 +3,10 @@
 #include <string>
 #include <vector>
 
-#include "../Matricies/SparseMatrix.hpp"
-#include "../Matricies/Matrix.hpp"
+#include "../Matrices/SparseMatrix.hpp"
+#include "../Matrices/Matrix.hpp"
 
-class Activity {
+struct Activity {
     std::string ID;
 	std::string name;
 	std::string type;                        //Lecture/Problem Class/Tutorial/Practical

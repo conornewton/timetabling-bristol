@@ -3,11 +3,11 @@
 #include <vector>
 #include <string>
 
-class Teacher {
+struct Teacher {
     std::string ID;
-	bool pathway_one = false;          //which day is the staff members research day, (If it is -1 then they dont have a research day)
-	std::vector<int> activities;       //Activities the staff member is teaching
-	std::vector<int> bad_timeslots;    //timeslots the staff member is not free during
+	bool pathway_one = false;          //does the teacher require a resarch day, (If it is false then they dont have a research day)
+	std::vector<int> activities;       //Activities the teacher member is teaching
+	std::vector<int> bad_timeslots;    //timeslots the teacher member is not free during
 };
 
 class Teachers {

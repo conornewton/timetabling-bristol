@@ -1,5 +1,8 @@
 #include "Teachers.hpp"
 
+#include "../CSV/CSV.hpp"
+#include "Data.hpp"
+
 Teachers::Teachers() {
     CSV csv_staff(FILEPATH_STAFF);
 
