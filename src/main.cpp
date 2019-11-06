@@ -10,7 +10,7 @@ int main() {
     //We use these containers for all of our data throughout
     Students s;
     Rooms r;
-    Teachers t;
+    Teachers t; 
     Activities a(s.size());
 
     
