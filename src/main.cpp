@@ -7,11 +7,12 @@
 
 int main() {
 
-    //We use the containers for our data throughout
-    const Students s;
-    const Rooms r;
-    const Teachers t;
-    const Activities a;
+    //We use these containers for all of our data throughout
+    Students s;
+    Rooms r;
+    Teachers t;
+    Activities a(s.size());
+
     
 
     return 0;

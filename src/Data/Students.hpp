@@ -12,8 +12,7 @@ class Students {
 public:
     Students();
     Student& operator[](const int& x);
-
-    
+    const int size();
 
 private:
     std::vector<Student> data;

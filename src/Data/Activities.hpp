@@ -32,9 +32,10 @@ public:
 
 	int  soft_clash(const int& a, const int& b);              //tells us the number of students on both activities a and b
 	bool hard_clash(const int& a, const int& b);              //tells us whether courses a and b can be scheduled at the same time
-	int  get(const int& timeslot, const int& room);  //tells us which course is taking place in the specified timeslot and room
+	int  get(const int& timeslot, const int& room);           //tells us which course is taking place in the specified timeslot and room
 
 	void set(const int& activity, int& timeslot, int& room);  //sets the timeslot and room of the specified activity
+
 private:
     std::vector<Activity> data;
 

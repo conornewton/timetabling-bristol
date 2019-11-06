@@ -17,6 +17,7 @@ public:
 Rooms();
 
 Room& operator[](const int& a);
+int size();
 
 private:
 std::vector<Room> data;

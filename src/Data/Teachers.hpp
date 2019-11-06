@@ -15,6 +15,7 @@ public:
 
 Teachers();
 Teacher& operator[](const int& a);
+int size();
 
 private:
 std::vector<Teacher> data;
