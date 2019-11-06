@@ -5,6 +5,7 @@
 
 #include <unordered_map>
 #include <sstream>
+#include <iostream>
 
 std::string Student::to_string() {
 	std::stringstream s;
@@ -28,8 +29,6 @@ std::string Students::to_string() {
 }
 
 Students::Students() {
-    std::unordered_map<std::string, int> student_id_index;
-
     CSV csv_students(FILEPATH_STUDENTS);
 
 	while (csv_students.next_line()) {
@@ -37,9 +36,14 @@ Students::Students() {
 
 		Student s;
 		s.ID = values[0];
+		
+		std::vector<std::string> activity_values = split(values[1], ',');
 
+		for (int i = 0; i < activity_values.size(); i++) {
+			s.activities.push_back(stoi(activity_values[i]));
+		}
+		
 		data.push_back(s);
-		student_id_index[values[0]] = data.size() - 1;
 	}
 }
 

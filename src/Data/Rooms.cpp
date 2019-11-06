@@ -42,7 +42,6 @@ Rooms::Rooms() {
         r.Bookable = true;
 
 		if (values[4][0] == '0') {
-			std::cout << "false" << std::endl;
 			r.Bookable = false;
 		}
 

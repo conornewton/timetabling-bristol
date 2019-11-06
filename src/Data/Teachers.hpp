@@ -9,6 +9,8 @@ struct Teacher {
 	bool pathway_one = false;          //does the teacher require a resarch day, (If it is false then they dont have a research day)
 	std::vector<int> activities;       //Activities the teacher member is teaching
 	std::vector<int> bad_timeslots;    //timeslots the teacher member is not free during
+
+	std::string to_string();
 };
 
 class Teachers {
@@ -18,6 +20,7 @@ Teachers();
 Teacher& operator[](const int& a);
 int size();
 int id_to_index(const std::string& id);
+std::string to_string();
 
 
 private:

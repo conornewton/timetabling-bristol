@@ -9,6 +9,10 @@
 !.vscode/extensions.json
 
 ### VisualStudioCode Patch ###
+
+data/
+data/*
+
 # Ignore all local history of files
 **/.history
 

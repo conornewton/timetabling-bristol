@@ -11,6 +11,7 @@ struct Activity {
     std::string ID;
 	std::string name;
 	std::string type;                        //Lecture/Problem Class/Tutorial/Practical
+	std::string dept;
 
 	int number_of_hours = 1;                 //labs usually are longer than a single hour
 
@@ -39,6 +40,8 @@ public:
 	int size();
 
 	int id_to_index(const std::string& id);
+
+	std::string to_string();
 	
 private:
     std::vector<Activity> data;

@@ -6,12 +6,6 @@
 #include "Data/Activities.hpp"
 
 #include "Backtracking/Backtrack.hpp"
-   
-//TODO: FIX THE DATA SO ITS EASIER TO LOAD
-//We can do this by writing out the data from the other program
-//Ideally we want to be using only four files
-
-//Room loading is complete
 
 int main() {
 
@@ -21,15 +15,9 @@ int main() {
     Teachers t; 
     Activities a(s.size()); //activities requires the number of students for a timetable matrix
 
-
-    for (int i = 0; i < r.size(); i++) {
-        Room room = r[i];
-        std::cout << room.to_string() << std::endl;
-    }
-
-
+    //Stage 1 - Bactracking
     if (backtrack(a, s, t, r)) {
-        //Stage 2 - Optimization Here
+        //Stage 2 - Optimization
         
     } else {
         std::cout << "Finding an initial solution failed :(" << std::endl;
