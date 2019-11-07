@@ -7,6 +7,9 @@
 
 #include "Backtracking/Backtrack.hpp"
 
+//TODO: fix multiple hour courses
+//TODO: compute clash matrix
+
 int main() {
 
     //We use these containers for all of our data throughout
@@ -20,7 +23,7 @@ int main() {
         //Stage 2 - Optimization
         std::cout << "Backtracking Complete :)" << std::endl;
 
-        std::cout << a.to_string() << std::endl;
+        std::cout << a.to_string(r) << std::endl;
     } else {
         std::cout << "Finding an initial solution failed :(" << std::endl;
     }

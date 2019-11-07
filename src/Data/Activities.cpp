@@ -3,30 +3,31 @@
 
 #include "Students.hpp"
 #include "Teachers.hpp"
+#include "Rooms.hpp"
 
 #include "../CSV/CSV.hpp"
 
 #include <sstream>
 
 
-std::string Activity::to_string() {
+std::string Activity::to_string(Rooms& r) {
     std::stringstream s;
 
-    s << ID << ", " << name << ", " << type << ", " << dept << ", " << number_of_hours << ", " << timeslot << ", " << room << std::endl;
+    s << ID << ", " << name << ", " << type << ", " << dept << ", " << number_of_hours << ", " << timeslot << ", " << r[room].Name << std::endl;
 
     return s.str();
 }
 
-std::string Activities::to_string() {
+std::string Activities::to_string(Rooms& r) {
     std::stringstream s;
 
     for (Activity& a: data) {
-        s << a.to_string();
+        s << a.to_string(r);
     }
     return s.str();
 }
 
-Activities::Activities(Students& s, Teachers& t) : data(), soft_clash_matrix(-1), hard_clash_matrix(false), timetable(NO_TS, s.size()) {
+Activities::Activities(Students& s, Teachers& t) : data(), soft_clash_matrix(-1), hard_clash_matrix(false), timetable(NO_TS, s.size()), teacher_timetable(-1), teacher_timetable(-1) {
     //First load course data from CSV's
     CSV csv_activities(FILEPATH_ACTIVITIES);
 
@@ -85,7 +86,7 @@ int Activities::get(const int& timeslot, const int& room) {
 void Activities::set(const int& activity, int& timeslot, int& room) {
     timetable.set(timeslot, room, activity);
     data[activity].room = room;
-    data[activity].timeslot = timeslot;
+    data[activity].timeslot = timeslot; 
 }
 
 void Activities::unset(const int& activity) {
@@ -97,14 +98,3 @@ void Activities::unset(const int& activity) {
 int Activities::size() {
     return data.size();
 }
-
-int Activities::id_to_index(const std::string& id) {
-	auto search = id_to_index_map.find(id);
-
-	if (search != id_to_index_map.end()) {
-		return search->second;
-	}
-
-	return -1;
-}
-

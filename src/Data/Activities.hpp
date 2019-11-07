@@ -6,6 +6,7 @@
 
 #include "Students.hpp"
 #include "Teachers.hpp"
+#include "Rooms.hpp"
 
 #include "../Matrices/SparseMatrix.hpp"
 #include "../Matrices/Matrix.hpp"
@@ -26,7 +27,7 @@ struct Activity {
 	int timeslot = -1;
 	int room = -1;
 
-	std::string to_string();                                
+	std::string to_string(Rooms& r);                                
 };
 
 class Activities {
@@ -42,15 +43,18 @@ public:
 	void unset(const int& activity);
 	int size();
 
-	int id_to_index(const std::string& id);
-
-	std::string to_string();
+	std::string to_string(Rooms& r);
 	
 private:
     std::vector<Activity> data;
-	std::unordered_map<std::string, int> id_to_index_map;
 
 	SparseMatrix<int> soft_clash_matrix;
 	SparseMatrix<bool> hard_clash_matrix;
+
+
+	//DO i need these?
+	SparseMatrix<int> teacher_timetable; //teacher x timeslot matrix, entries are the activity indexes
+	SparseMatrix<int> student_timetable; //student x timeslot matrix, entries are the activity indexes
+
 	Matrix<int> timetable;
 };

@@ -33,6 +33,10 @@ class SparseMatrix
             data.insert(std::make_pair(getKey(a,b), std::move(val)));
         }
 
+        void unset(int a, int b) {
+            data.erase(getKey(a, b));
+        }
+
         class Row 
         {   
             SparseMatrix const* parent;

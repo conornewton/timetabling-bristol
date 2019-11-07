@@ -2,6 +2,7 @@
 
 #include "../CSV/CSV.hpp"
 #include "Data.hpp"
+#include "Activities.hpp"
 
 #include <sstream>
 
@@ -67,17 +68,18 @@ Teacher& Teachers::operator[](const int& a) {
     return this->data[a];
 }
 
+
+
 int Teachers::size() {
     return data.size();
 }
 
-
-int Teachers::id_to_index(const std::string& id) {
-	auto search = id_to_index_map.find(id);
-
-	if (search != id_to_index_map.end()) {
-		return search->second;
+//TODO: check for bad timeslots
+bool Teachers::is_free(Activities& a, const int& t, const int& ts) {
+	Teacher& teacher = data[t];
+	for (int activity : teacher.activities) {
+		if (a[activity].timeslot == ts) return false
 	}
 
-	return -1;
+	return true;
 }
