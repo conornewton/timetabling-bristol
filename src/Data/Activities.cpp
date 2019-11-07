@@ -1,6 +1,9 @@
 #include "Activities.hpp"
 #include "Data.hpp"
 
+#include "Students.hpp"
+#include "Teachers.hpp"
+
 #include "../CSV/CSV.hpp"
 
 #include <sstream>
@@ -9,7 +12,7 @@
 std::string Activity::to_string() {
     std::stringstream s;
 
-    s << ID << ", " << name << ", " << type << ", " << dept << ", " << number_of_hours << std::endl;
+    s << ID << ", " << name << ", " << type << ", " << dept << ", " << number_of_hours << ", " << timeslot << ", " << room << std::endl;
 
     return s.str();
 }
@@ -23,7 +26,8 @@ std::string Activities::to_string() {
     return s.str();
 }
 
-Activities::Activities(const int& no_rooms) : data(), soft_clash_matrix(-1), hard_clash_matrix(false), timetable(NO_TS, no_rooms) {
+Activities::Activities(Students& s, Teachers& t) : data(), soft_clash_matrix(-1), hard_clash_matrix(false), timetable(NO_TS, s.size()) {
+    //First load course data from CSV's
     CSV csv_activities(FILEPATH_ACTIVITIES);
 
 	while (csv_activities.next_line()) {
@@ -41,6 +45,25 @@ Activities::Activities(const int& no_rooms) : data(), soft_clash_matrix(-1), har
 		data.push_back(a);
 	}
 
+    //Here we enroll students on there activities
+    for (int i = 0; i < s.size(); i++) {
+        Student& st = s[i];
+
+        for (int activity : st.activities) {
+            data[activity].students.push_back(i);
+        }
+    }
+
+    //We also enroll the staff on there activities
+    for (int i = 0; i < t.size(); i++) {
+        Teacher& st = t[i];
+
+        for (int activity : st.activities) {
+            data[activity].teachers.push_back(i);
+        }
+    }
+
+    //Here we update the preferred rooms for the activities
 }
 
 Activity& Activities::operator[](const int& a) {
@@ -61,6 +84,14 @@ int Activities::get(const int& timeslot, const int& room) {
 
 void Activities::set(const int& activity, int& timeslot, int& room) {
     timetable.set(timeslot, room, activity);
+    data[activity].room = room;
+    data[activity].timeslot = timeslot;
+}
+
+void Activities::unset(const int& activity) {
+    timetable.set(data[activity].timeslot, data[activity].room, -1);
+    data[activity].room = -1;
+    data[activity].timeslot = -1;
 }
 
 int Activities::size() {

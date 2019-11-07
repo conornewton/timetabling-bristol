@@ -68,3 +68,11 @@ int Rooms::id_to_index(const std::string& id) {
 
 	return -1;
 }
+
+Room* Rooms::begin() {
+    return &data.front();
+}
+
+Room* Rooms::end() {
+    return &data.back();
+}

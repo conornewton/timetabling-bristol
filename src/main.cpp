@@ -13,12 +13,14 @@ int main() {
     Students s;
     Rooms r;
     Teachers t; 
-    Activities a(s.size()); //activities requires the number of students for a timetable matrix
+    Activities a(s, t);
 
     //Stage 1 - Bactracking
     if (backtrack(a, s, t, r)) {
         //Stage 2 - Optimization
-        
+        std::cout << "Backtracking Complete :)" << std::endl;
+
+        std::cout << a.to_string() << std::endl;
     } else {
         std::cout << "Finding an initial solution failed :(" << std::endl;
     }

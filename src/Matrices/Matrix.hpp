@@ -1,6 +1,7 @@
 #pragma once
 
 #include <unordered_map>
+#include <algorithm>
 
 template <typename T>
 class Matrix
@@ -10,10 +11,10 @@ public:
 	int height;
 
 	Matrix(int w, int h) : width(w), height(h), data(w * h) {
-
+		
 	}
 
-	T& get(const int& a, const int& b) {
+	T get(const int& a, const int& b) {
 		return data[a + b * width];
 	}
 
@@ -23,6 +24,14 @@ public:
 
 	void set(const int& a, const int& b, T val) {
 		data[a + b * width] = val;
+	}
+
+	void set_all(T val) {
+		std::fill(data.begin(), data.end(), val);
+	}
+
+	void set_row(const int&row, T val) {
+		std::fill_n(data.begin() + width * row, width , val);
 	}
 	
 	//hack to get the double index notation to work
@@ -42,7 +51,7 @@ public:
 			, a(a)
 		{}
 
-		T& operator[](int b)
+		T operator[](int b)
 		{
 			return parent->get(a, b);
 		}

@@ -5,4 +5,4 @@
 #include "../Data/Teachers.hpp"
 #include "../Data/Activities.hpp"
 
-bool backtrack(Activities a, Students s, Teachers t, Rooms r);
+bool backtrack(Activities& a, Students& s, Teachers& t, Rooms& r);

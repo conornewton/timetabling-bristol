@@ -23,6 +23,9 @@ int size();
 std::string to_string();
 int id_to_index(const std::string& id);
 
+Room* begin();
+Room* end();
+
 private:
 std::vector<Room> data;
 std::unordered_map<std::string, int> id_to_index_map;

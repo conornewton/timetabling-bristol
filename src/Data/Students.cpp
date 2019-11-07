@@ -51,7 +51,7 @@ Student& Students::operator[](const int& x) {
     return this->data[x];
 }
 
-const int Students::size() {
+int Students::size() {
     return data.size();
 }
 

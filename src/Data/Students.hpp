@@ -16,7 +16,7 @@ public:
     Students();
 
     Student& operator[](const int& x);
-    const int size();
+    int size();
 
     std::string to_string();
     int id_to_index(const std::string& id);
