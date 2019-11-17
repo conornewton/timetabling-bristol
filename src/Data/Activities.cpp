@@ -27,7 +27,7 @@ std::string Activities::to_string(Rooms& r) {
     return s.str();
 }
 
-Activities::Activities(Students& s, Teachers& t) : data(), soft_clash_matrix(-1), hard_clash_matrix(false), timetable(NO_TS, s.size()) {
+Activities::Activities(Students& s, Teachers& t) : data(), soft_clash_matrix(0), hard_clash_matrix(false), timetable(NO_TS, s.size()) {
     //First load course data from CSV's
     CSV csv_activities(FILEPATH_ACTIVITIES);
 
@@ -63,6 +63,17 @@ Activities::Activities(Students& s, Teachers& t) : data(), soft_clash_matrix(-1)
             data[activity].teachers.push_back(i);
         }
     }
+
+    for (int i = 0; i < s.size(); i++) {
+        Student& stu = s[i];
+		for (unsigned int course_index1 : stu.activities) {
+			for (unsigned int course_index2 : stu.activities) {
+				if (course_index1 != course_index2) {
+					soft_clash_matrix.set(course_index1, course_index2, soft_clash_matrix.get(course_index1, course_index2) + 1);
+				}
+			}
+		}
+	}
 
     //Here we update the preferred rooms for the activities
 }

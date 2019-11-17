@@ -1,7 +1,7 @@
 CC=g++ -std=c++17
 
-timetabling: main.o activities.o rooms.o students.o teachers.o csv.o backtrack.o hardconstraints.o
-	$(CC) bin/main.o bin/Activities.o bin/Rooms.o bin/Students.o bin/Teachers.o bin/CSV.o bin/Backtrack.o bin/HardConstraints.o -o bin/timetabling
+timetabling: main.o activities.o rooms.o students.o teachers.o csv.o backtrack.o hardconstraints.o sa.o obj.o
+	$(CC) bin/main.o bin/Activities.o bin/Rooms.o bin/Students.o bin/Teachers.o bin/CSV.o bin/Backtrack.o bin/HardConstraints.o bin/Sa.o bin/obj.o -o bin/timetabling
 
 main.o: src/main.cpp
 	$(CC) -c src/main.cpp -o bin/main.o
@@ -26,3 +26,9 @@ teachers.o: src/Data/Teachers.cpp src/Data/Teachers.hpp
 
 csv.o: src/CSV/CSV.cpp src/CSV/CSV.hpp
 	$(CC) -c src/CSV/CSV.cpp -o bin/CSV.o
+
+sa.o: src/Optimization/SimulatedAnnealing.cpp src/Optimization/SimulatedAnnealing.hpp
+	$(CC) -c src/Optimization/SimulatedAnnealing.cpp -o bin/Sa.o
+
+obj.o: src/Optimization/Objective.cpp src/Optimization/Objective.hpp
+	$(CC) -c src/Optimization/Objective.cpp -o bin/obj.o

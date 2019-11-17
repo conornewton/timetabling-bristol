@@ -8,7 +8,6 @@
 #include "../Data/Activities.hpp"
 
 #include <algorithm>
-#include <iostream>
 
 static std::vector<int> timeslots;
 
@@ -47,9 +46,6 @@ bool backtrack(Activities& a, Students& s, Teachers& t, Rooms& r) {
     Matrix<bool> bad_timeslots(NO_TS, a.size());
 
     while (activity_index < a.size()) {
-
-        std::cout << activity_index << std::endl;
-
         int timeslot = next_timeslot(a, r, s, t,bad_timeslots, activity_index);
         
         if (timeslot == -1) {

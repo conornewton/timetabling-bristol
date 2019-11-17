@@ -1,4 +1,5 @@
 #include <iostream>
+#include <chrono>
 
 #include "Data/Students.hpp"
 #include "Data/Rooms.hpp"
@@ -7,11 +8,12 @@
 
 #include "Backtracking/Backtrack.hpp"
 
+#include "Optimization/SimulatedAnnealing.hpp"
+#include "Optimization/Objective.hpp"
+
 //TODO: add lecturer hours they cant make
 //TODO: fix multiple hour courses
-//TODO: compute clash matrix
 //TODO: loop through preferred activities instead.
-    
 
 int main() {
 
@@ -24,9 +26,20 @@ int main() {
     //Stage 1 - Bactracking
     if (backtrack(a, s, t, r)) {
         //Stage 2 - Optimization
-        std::cout << "Backtracking Complete :)" << std::endl;
+        std::cout << "Stage 1 - Backtracking Complete :)" << std::endl;
+        std::cout << "Stage 2 - Optimization Starting :)" << std::endl;
 
-        std::cout << a.to_string(r) << std::endl;
+        int score = objective(a, r, t, s);
+
+        std::cout << "Initial Score: " << score << std::endl;
+
+        simmulated_annealing(a, r, s, t);
+
+        std::cout << "Optimization Complete" << std::endl;
+
+        score = objective(a, r, t, s);
+        std::cout << "Final Score: " << score << std::endl;
+
     } else {
         std::cout << "Finding an initial solution failed :(" << std::endl;
     }
