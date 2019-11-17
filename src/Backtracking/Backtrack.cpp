@@ -8,14 +8,15 @@
 #include "../Data/Activities.hpp"
 
 #include <algorithm>
+#include <iostream>
 
 static std::vector<int> timeslots;
 
 int next_room(Activities& a, Students& s, Teachers& t, Rooms& r, int activity, int timeslot) {
-    //TODO: loop through preferred activities instead.
+
     for (int i = 0; i < r.size(); i++) {
         Room& room = r[i];
-        if (room.Capacity >  a[activity].students.size() && a.get(timeslot, i) != -1) {
+        if (room.Capacity > a[activity].students.size() && a.get(timeslot, i) != -1) {
             return i;
         }
     }
@@ -25,12 +26,12 @@ int next_room(Activities& a, Students& s, Teachers& t, Rooms& r, int activity, i
 
 //we find the next timeslot we can use that will satisfy the hard constraints
 //returns -1 if there is no available timeslot
-int next_timeslot(Activities& a, Students& s, Teachers& t, Matrix<bool>& bad_timeslots, int activity) {
+int next_timeslot(Activities& a, Rooms& r, Students& s, Teachers& t, Matrix<bool>& bad_timeslots, int activity) {
 
     random_shuffle(timeslots.begin(), timeslots.end()); 
 
     for (int x : timeslots) {
-        if (!bad_timeslots[x][activity]) return x;
+        if (!bad_timeslots[x][activity] && wednesday_afternoon_free(x) && no_hard_clash(a, r, activity, x) && teachers_no_bad_timeslots(a, t, x, activity) && teachers_pathway_one_day_off(a, t, x, activity)) return x;
 	}
 
     return -1;
@@ -46,7 +47,10 @@ bool backtrack(Activities& a, Students& s, Teachers& t, Rooms& r) {
     Matrix<bool> bad_timeslots(NO_TS, a.size());
 
     while (activity_index < a.size()) {
-        int timeslot = next_timeslot(a, s, t,bad_timeslots, activity_index);
+
+        std::cout << activity_index << std::endl;
+
+        int timeslot = next_timeslot(a, r, s, t,bad_timeslots, activity_index);
         
         if (timeslot == -1) {
             //could not find a solution

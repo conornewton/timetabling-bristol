@@ -68,19 +68,13 @@ Teacher& Teachers::operator[](const int& a) {
     return this->data[a];
 }
 
-
-
 int Teachers::size() {
     return data.size();
 }
 
-//TODO: check for bad timeslots
-/*
-bool Teachers::is_free(Activities& a, const int& t, const int& ts) {
-	Teacher& teacher = data[t];
-	for (int activity : teacher.activities) {
-		if (a[activity].timeslot == ts) return false
-	}
 
-	return true;
-}*/
+bool Teachers::is_bad_timeslot(const int& t, const int& ts) {
+	Teacher& teach = data[t];
+	return std::find(teach.bad_timeslots.begin(), teach.bad_timeslots.end(), ts) != teach.bad_timeslots.end();
+	
+}

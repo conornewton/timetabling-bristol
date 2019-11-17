@@ -27,7 +27,7 @@ std::string Activities::to_string(Rooms& r) {
     return s.str();
 }
 
-Activities::Activities(Students& s, Teachers& t) : data(), soft_clash_matrix(-1), hard_clash_matrix(false), timetable(NO_TS, s.size()), teacher_timetable(-1) {
+Activities::Activities(Students& s, Teachers& t) : data(), soft_clash_matrix(-1), hard_clash_matrix(false), timetable(NO_TS, s.size()) {
     //First load course data from CSV's
     CSV csv_activities(FILEPATH_ACTIVITIES);
 
@@ -76,7 +76,7 @@ int Activities::soft_clash(const int& a, const int& b) {
 }
 
 bool Activities::hard_clash(const int& a, const int& b) {
-    return soft_clash_matrix.get(a, b);
+    return hard_clash_matrix.get(a, b);
 }
 
 int Activities::get(const int& timeslot, const int& room) {
@@ -86,7 +86,7 @@ int Activities::get(const int& timeslot, const int& room) {
 void Activities::set(const int& activity, int& timeslot, int& room) {
     timetable.set(timeslot, room, activity);
     data[activity].room = room;
-    data[activity].timeslot = timeslot; 
+    data[activity].timeslot = timeslot;
 }
 
 void Activities::unset(const int& activity) {

@@ -7,8 +7,11 @@
 
 #include "Backtracking/Backtrack.hpp"
 
+//TODO: add lecturer hours they cant make
 //TODO: fix multiple hour courses
 //TODO: compute clash matrix
+//TODO: loop through preferred activities instead.
+    
 
 int main() {
 
