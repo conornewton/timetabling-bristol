@@ -15,6 +15,8 @@
 //TODO: fix multiple hour courses
 //TODO: loop through preferred activities instead.
 
+//TODO: implement good way of undoing changes
+
 int main() {
 
     //We use these containers for all of our data throughout

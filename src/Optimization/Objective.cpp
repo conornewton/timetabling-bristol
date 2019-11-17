@@ -70,6 +70,7 @@ int objective_activity(Activities& as, int a, Rooms& r, Teachers& t, Students& s
     return w1 * capacity_weight(as[a], r) + w2 * soft_clashes_score(as, a) + w3 * hard_clashes_score(as, a) + w4 * wednesday_afternoon_free(as[a]);
 }
 
+
 int objective(Activities& a, Rooms& r, Teachers& t, Students& s) {
     int score = 0;
 

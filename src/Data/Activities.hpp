@@ -41,15 +41,20 @@ public:
 	int  get(const int& timeslot, const int& room);           //tells us which course is taking place in the specified timeslot and room
 	void set(const int& activity, int& timeslot, int& room);  //sets the timeslot and room of the specified activity
 
-	bool simple_swap(const SimpleSwap& s);                    //moves the given activty to a random slot
-
-	void undo(); //undo the last swap performed
+	bool simple_swap();                                       //performs a random simple swap
+	void undo();                                              //undo the last swap performed
 
 	void unset(const int& activity);
 	int size();
 
+	void update_blame(Rooms& r, Teachers& t, Students& s);
+	int objective();
+
 	std::string to_string(Rooms& r);
-	
+
+	std::vector<int> moved;
+	std::vector<int> blame;
+
 private:
     std::vector<Activity> data;
 

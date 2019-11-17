@@ -6,6 +6,7 @@
 #include "Rooms.hpp"
 
 #include "../CSV/CSV.hpp"
+#include "../Optimization/Objective.hpp"
 
 #include <sstream>
 
@@ -76,6 +77,11 @@ Activities::Activities(Students& s, Teachers& t) : data(), soft_clash_matrix(0),
 	}
 
     //Here we update the preferred rooms for the activities
+    //TODO:
+
+
+    moved.resize(data.size());
+    blame.resize(data.size());
 }
 
 Activity& Activities::operator[](const int& a) {
@@ -108,4 +114,16 @@ void Activities::unset(const int& activity) {
 
 int Activities::size() {
     return data.size();
+}
+
+int Activities::update_blame(Rooms& r, Teachers& t, Students& s) {
+    for (int a : as.moved) {
+        blame[a] = objective_activity(as, a, r, t, s);
+    }
+}
+
+int Activities::objective() {
+    int sum = 0
+    for (int& n : blame) sum += n;
+    return sum;
 }
