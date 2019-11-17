@@ -27,7 +27,7 @@ std::string Activities::to_string(Rooms& r) {
     return s.str();
 }
 
-Activities::Activities(Students& s, Teachers& t) : data(), soft_clash_matrix(-1), hard_clash_matrix(false), timetable(NO_TS, s.size()), teacher_timetable(-1), teacher_timetable(-1) {
+Activities::Activities(Students& s, Teachers& t) : data(), soft_clash_matrix(-1), hard_clash_matrix(false), timetable(NO_TS, s.size()), teacher_timetable(-1) {
     //First load course data from CSV's
     CSV csv_activities(FILEPATH_ACTIVITIES);
 

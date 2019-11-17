@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Activities.hpp"
-
 #include <vector>
 #include <string>
 #include <unordered_map>
@@ -21,7 +19,8 @@ public:
 	Teachers();
 	Teacher& operator[](const int& a);
 	int size();
-	bool is_free(Activities& a, const int& t, const int& ts);
+	//TODO move this elsewhere!
+	//bool is_free(Activities& a, const int& t, const int& ts);
 	std::string to_string();
 
 

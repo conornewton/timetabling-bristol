@@ -75,6 +75,7 @@ int Teachers::size() {
 }
 
 //TODO: check for bad timeslots
+/*
 bool Teachers::is_free(Activities& a, const int& t, const int& ts) {
 	Teacher& teacher = data[t];
 	for (int activity : teacher.activities) {
@@ -82,4 +83,4 @@ bool Teachers::is_free(Activities& a, const int& t, const int& ts) {
 	}
 
 	return true;
-}
+}*/
