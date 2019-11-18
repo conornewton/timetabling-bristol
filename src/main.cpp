@@ -1,5 +1,7 @@
 #include <iostream>
 #include <chrono>
+#include <time.h>
+#include <random>
 
 #include "Data/Students.hpp"
 #include "Data/Rooms.hpp"
@@ -19,11 +21,13 @@
 
 int main() {
 
+    srand(time(NULL));
+
     //We use these containers for all of our data throughout
     Students s;
     Rooms r;
     Teachers t; 
-    Activities a(s, t);
+    Activities a(s, t, r);
 
     //Stage 1 - Bactracking
     if (backtrack(a, s, t, r)) {

@@ -33,7 +33,7 @@ struct Activity {
 class Activities {
 
 public:
-    Activities(Students& s, Teachers& t);
+    Activities(Students& s, Teachers& t, Rooms& r);
     Activity& operator[] (const int& a);
 
 	int  soft_clash(const int& a, const int& b);              //tells us the number of students on both activities a and b
@@ -41,21 +41,24 @@ public:
 	int  get(const int& timeslot, const int& room);           //tells us which course is taking place in the specified timeslot and room
 	void set(const int& activity, int& timeslot, int& room);  //sets the timeslot and room of the specified activity
 
-	bool simple_swap();                                       //performs a random simple swap
-	void undo();                                              //undo the last swap performed
+	void simple_swap(const int& ts1, const int& rm1, const int& ts2, const int& rm2, Rooms& r, Teachers& t, Students& s); //performs simple swap
 
 	void unset(const int& activity);
 	int size();
 
-	void update_blame(Rooms& r, Teachers& t, Students& s);
+	void update_blame_all(Rooms& r, Teachers& t, Students& s);
 	int objective();
+	int blame_activity();
 
 	std::string to_string(Rooms& r);
 
-	std::vector<int> moved;
+	
 	std::vector<int> blame;
 
 private:
+
+	void update_blame(const int& a, Rooms& r, Teachers& t, Students& s);
+
     std::vector<Activity> data;
 
 	SparseMatrix<int> soft_clash_matrix;

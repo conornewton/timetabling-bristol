@@ -15,7 +15,7 @@ int next_room(Activities& a, Students& s, Teachers& t, Rooms& r, int activity, i
 
     for (int i = 0; i < r.size(); i++) {
         Room& room = r[i];
-        if (room.Capacity > a[activity].students.size() && a.get(timeslot, i) != -1) {
+        if (room.Capacity > a[activity].students.size() && a.get(timeslot, i) == -1) {
             return i;
         }
     }
