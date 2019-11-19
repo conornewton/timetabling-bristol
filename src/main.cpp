@@ -13,12 +13,10 @@
 #include "Optimization/SimulatedAnnealing.hpp"
 #include "Optimization/Objective.hpp"
 
-//TODO: add prefered rooms
 //TODO: add lecturer hours they cant make
 //TODO: fix multiple hour courses
 //TODO: compute hard clash matrix
-
-//Maybe: use boost libraries for matrices
+//TODO: add lunch break soft constraint
 
 int main() {
 
@@ -26,11 +24,8 @@ int main() {
 
     //We use these containers for all of our data throughout
     Students s;
-    std::cout << "Student loading complete" << std::endl;
     Rooms r;
-    std::cout << "Room loading complete" << std::endl;
     Teachers t; 
-    std::cout << "Teacher loading complete" << std::endl;
     Activities a(s, t, r);
 
 
@@ -41,7 +36,6 @@ int main() {
         std::cout << "Stage 2 - Optimization Starting :)" << std::endl;
 
         int score = objective(a, r, t, s);
-
       
         std::cout << "Initial Score: " << score << std::endl;
 
@@ -55,6 +49,8 @@ int main() {
 
         score = objective(a, r, t, s);
         std::cout << "Final Score: " << score << std::endl;
+        objective_print(a, r, t, s);
+        std::cout << a.objective() << std::endl;
 
     } else {
         std::cout << "Finding an initial solution failed :(" << std::endl;

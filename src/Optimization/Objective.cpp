@@ -7,8 +7,8 @@
 constexpr int w1 = 2;
 constexpr int w2 = 1;
 constexpr int w3 = 20;
-constexpr int w4 = 20;
-constexpr int w5 = 20;
+constexpr int w4 = 1000;
+constexpr int w5 = 0;
 
 int capacity_weight(Activity& a, Rooms& r) {
 	int score = 0;
@@ -51,10 +51,10 @@ int wednesday_afternoon_free(Activity& a) {
 
     int hours_per_day = NO_TS / 5;
     if (a.timeslot < hours_per_day * 2 + 5 || a.timeslot >= hours_per_day * 3) {
-        return 1;
+        return 0;
     }
 
-    return 0;
+    return 1;
 }
 
 
@@ -92,4 +92,26 @@ int objective(Activities& a, Rooms& r, Teachers& t, Students& s) {
     }
 
     return score;
+}
+
+void objective_print(Activities& a, Rooms& r, Teachers& t, Students& s) {
+    int score1 = 0;
+    int score2 = 0;
+    int score3 = 0;
+    int score4 = 0;
+    int score5 = 0;
+
+    for (int i = 0; i < a.size(); i++) {
+        score1 += capacity_weight(a[i], r);
+        score2 += soft_clashes_score(a, i);
+        score3 += hard_clashes_score(a, i);
+        score4 += wednesday_afternoon_free(a[i]);
+        score5 += teachers_pathway_one_day_off(a, t, i);
+    }
+
+    std::cout << "OverCapacity:\t\t"  << score1 << std::endl;
+    std::cout << "SoftClashes:\t\t" << score2 << std::endl;
+    std::cout << "HardClashes:\t\t" <<score3 << std::endl;
+    std::cout << "WednesdayAfternoon:\t" <<score4 << std::endl;
+    //std::cout << "PathwayOne:\t\t" << score5 << std::endl;
 }

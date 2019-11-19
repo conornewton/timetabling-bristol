@@ -50,6 +50,8 @@ public:
 	int objective();
 	int blame_activity();
 
+	int random_preferred_room(const int& a);
+
 	int no_hours_per_day(const int& t, const int& day);
 
 	std::string to_string(Rooms& r);

@@ -84,7 +84,11 @@ Activities::Activities(Students& s, Teachers& t, Rooms& r) : data(), soft_clash_
 	}
 
     //Here we update the preferred rooms for the activities
-    //TODO:
+    for (int i = 0; i < r.size(); i++) {
+        for (int j = 0; j < data.size(); j++) {
+            if (r[i].Capacity >= data[j].students.size()) data[j].preferred_rooms.push_back(i);
+        }
+    }
 
 
     blame.resize(data.size());
@@ -215,4 +219,12 @@ int Activities::blame_activity() {
 }
 int Activities::no_hours_per_day(const int& t, const int& day) {
     return hours_per_day.get(t, day);
+}
+
+int Activities::random_preferred_room(const int& a) {
+    std::random_device rd1;
+	std::mt19937 mt1(rd1());
+    std::uniform_int_distribution<int> rand_room(0, data[a].preferred_rooms.size() - 1);
+
+    return data[a].preferred_rooms[rand_room(mt1)];
 }

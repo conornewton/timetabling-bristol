@@ -27,25 +27,23 @@ inline bool acceptance(int current_score, int new_score, double temp) {
 
 void simmulated_annealing(Activities& a, Rooms& r, Students& s, Teachers& t) {
 
-    const double initial_temp = 1000;
-	const double final_temp = 1;
-	const double cooling_rate = 0.99;
+    const double initial_temp = 300;
+	const double final_temp = 50;
+	const double cooling_rate = 0.999;
 
 	std::random_device rd1;
 	std::mt19937 mt1(rd1());
-
-	std::uniform_int_distribution<int> room_rand(0, r.size() - 1);
-	std::uniform_int_distribution<int> time_rand(0, NO_TS - 1);
+	std::uniform_int_distribution<int> time_rand(0, NO_TS - 1 - (NO_TS / 5 * 3 - NO_TS/5 * 2 + 5));
 
 	double current_temp = initial_temp;
 
 	a.update_blame_all(r, t, s);
 	int current_score = a.objective();
 
-    while (current_temp > final_temp) {
-		current_score = a.objective();
+	//objective_print(a, r, t, s);
 
-		//std::cout << current_score << "\n";
+    while (current_score > 100) {
+		std::cout << current_score << "\n";
 
 		int activity1 = a.blame_activity();
 
@@ -54,20 +52,26 @@ void simmulated_annealing(Activities& a, Rooms& r, Students& s, Teachers& t) {
 		int room1 = a[activity1].room;
 		int time1 = a[activity1].timeslot;
 
-		//TODO: make this choose a valid timeslot and valid room instead of random
-		int room2 = room_rand(mt1);
+		//TODO: make this choose a valid timeslot and valid room instead of completely random
+		int room2 = a.random_preferred_room(activity1);
 		int time2 = time_rand(mt1);
 
-		//std::cout << room2 << ", " << time1 << "\n";
+		if (time2 > NO_TS / 5 * 2 + 5) {
+			time2 += NO_TS / 5 * 3 - NO_TS/5 * 2 + 5;
+		}
 
 		a.simple_swap(time1, room1, time2, room2, r, t, s);
 
-		if (!acceptance(current_score, a.objective(), current_temp)) {
+		int new_score = a.objective();
+
+		if (!acceptance(current_score, new_score, current_temp)) {
 
 			//std::cout << "rejected (" << a.objective() << ")\n";
-			
 			//we undo the swap if it is not accepted
 			a.simple_swap(time1, room1, time2, room2, r, t, s);
+
+		} else {
+			current_score = new_score;
 		}
 
         current_temp *= cooling_rate;
