@@ -24,38 +24,47 @@ int capacity_weight(Activity& a, Rooms& r) {
 
 int soft_clashes_score(Activities& as, int a) {
     int score = 0;
+    int duration = as[a].number_of_hours;
 
-	for (int b = 0; b < as.size(); b++) {
-
-		if (b != a && as[a].timeslot == as[b].timeslot) {
-			score += as.soft_clash(a, b);
-		}
-	}
+    for (int time = as[a].timeslot; time < as[a].timeslot + duration; time++) {
+        for (int b = 0; b < as.size(); b++) {
+            if (b != a && time == as[b].timeslot) {
+                score += as.soft_clash(a, b);
+            }
+        }
+    }
 	
 	return score;
 }
 
-//can i take this out of the objective function??
 int hard_clashes_score(Activities& as, int a) {
     int score = 0;
+    int duration = as[a].number_of_hours;
 
-	for (int b = 0; b < as.size(); b++) {
-		if (b != a && as[a].timeslot == as[b].timeslot) {
-            if (as.hard_clash(a, b)) score += 1;
-		}
-	}
+    for (int time = as[a].timeslot; time < as[a].timeslot + duration; time++) {
+        for (int b = 0; b < as.size(); b++) {
+            if (b != a && time == as[b].timeslot) {
+                if (as.hard_clash(a, b)) score += 1;
+            }
+        }
+    }
 	
 	return score;
 }
 
 int wednesday_afternoon_free(Activity& a) {
 
+    int score = 0;
+
     int hours_per_day = NO_TS / 5;
-    if (a.timeslot < hours_per_day * 2 + 5 || a.timeslot >= hours_per_day * 3) {
-        return 0;
+
+    for (int time = a.timeslot; time < a.timeslot + a.number_of_hours; time++) {
+        if (time >= hours_per_day * 2 + 5 && time < hours_per_day * 3) {
+            score += 1;
+        }
     }
 
-    return 1;
+    return score;
 }
 
 
@@ -112,7 +121,7 @@ void objective_print(Activities& a, Rooms& r, Teachers& t, Students& s) {
 
     //std::cout << "OverCapacity:\t\t"  << score1 << std::endl;
     std::cout << "SoftClashes:\t\t" << score2 << std::endl;
-    std::cout << "HardClashes:\t\t" << score3 << std::endl;
+    std::cout << "StaffClashes:\t\t" << score3 << std::endl;
     std::cout << "WednesdayAfternoon:\t" <<score4 << std::endl;
     std::cout << "PathwayOne:\t\t" << score5 << std::endl;
 }

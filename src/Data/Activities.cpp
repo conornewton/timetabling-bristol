@@ -8,6 +8,8 @@
 #include "../CSV/CSV.hpp"
 #include "../Optimization/Objective.hpp"
 
+#include "../Backtracking/HardConstraints.hpp"
+
 #include <sstream>
 #include <random>
 
@@ -241,4 +243,18 @@ int Activities::random_preferred_room(const int& a) {
     std::uniform_int_distribution<int> rand_room(0, data[a].preferred_rooms.size() - 1);
 
     return data[a].preferred_rooms[rand_room(mt1)];
+}
+
+int Activities::random_timeslot(const int& a) {
+    std::random_device rd1;
+	std::mt19937 mt1(rd1());
+    std::uniform_int_distribution<int> rand_room(0, NO_TS - 1);
+
+    int time; 
+
+    do {
+        time = rand_room(mt1);
+    } while(day_of_week(time) != day_of_week(time + data[a].number_of_hours) || !wednesday_afternoon_free(time, data[a].number_of_hours));
+
+    return time;
 }

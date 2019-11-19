@@ -40,7 +40,7 @@ void simmulated_annealing(Activities& a, Rooms& r, Students& s, Teachers& t) {
 	a.update_blame_all(r, t, s);
 	int current_score = a.objective();
 
-    while (current_score > 100) {
+    while (current_temp > final_temp) {
 		//std::cout << current_score << "\n";
 
 		int activity1 = a.blame_activity();
@@ -49,11 +49,7 @@ void simmulated_annealing(Activities& a, Rooms& r, Students& s, Teachers& t) {
 		int time1 = a[activity1].timeslot;
 
 		int room2 = a.random_preferred_room(activity1);
-		int time2 = time_rand(mt1);
-
-		if (time2 > NO_TS / 5 * 2 + 5) {
-			time2 += NO_TS / 5 * 3 - NO_TS/5 * 2 + 5;
-		}
+		int time2 = a.random_timeslot(activity1);
 
 		a.simple_swap(time1, room1, time2, room2, r, t, s);
 

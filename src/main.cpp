@@ -15,9 +15,9 @@
 
 #include "Backtracking/HardConstraints.hpp"
 
-//TODO: add lunch break soft constraint
-//TODO: make soft constraints consider multiple hours
+//TODO: implement Kempe swaps
 
+//TODO: add lunch break soft constraint
 //TODO: find out why backtracking cannot do hard clashes
 
 int main() {

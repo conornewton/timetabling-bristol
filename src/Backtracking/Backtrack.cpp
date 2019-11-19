@@ -32,7 +32,7 @@ int next_timeslot(Activities& a, Rooms& r, Students& s, Teachers& t, Matrix<bool
     for (int x : timeslots) {
         int d = a[activity].number_of_hours;
 
-        if (!bad_timeslots[x][activity] && wednesday_afternoon_free(x, d) && teachers_no_bad_timeslots(a, t, x, activity) && teachers_pathway_one_day_off(a, t, x, activity)) return x;
+        if (!bad_timeslots[x][activity] && day_of_week(x) == day_of_week(x + a[activity].number_of_hours) && wednesday_afternoon_free(x, d) && teachers_no_bad_timeslots(a, t, x, activity) && teachers_pathway_one_day_off(a, t, x, activity)) return x;
 	}
 
     return -1;
@@ -51,6 +51,8 @@ bool backtrack(Activities& a, Students& s, Teachers& t, Rooms& r) {
     while (activity_index < a.size()) {
 
         int timeslot = next_timeslot(a, r, s, t,bad_timeslots, activity_index);
+
+        std::cout << activity_index << std::endl;
         
         if (timeslot == -1) {
             //could not find a solution
