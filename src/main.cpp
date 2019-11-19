@@ -38,6 +38,7 @@ int main() {
         int score = objective(a, r, t, s);
       
         std::cout << "Initial Score: " << score << std::endl;
+        objective_print(a, r, t, s);
 
         auto start = std::chrono::high_resolution_clock::now();
         simmulated_annealing(a, r, s, t);

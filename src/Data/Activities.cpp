@@ -83,6 +83,17 @@ Activities::Activities(Students& s, Teachers& t, Rooms& r) : data(), soft_clash_
 		}
 	}
 
+    for (int i = 0; i < t.size(); i++) {
+        Teacher& tea = t[i];
+		for (unsigned int course_index1 : tea.activities) {
+			for (unsigned int course_index2 : tea.activities) {
+				if (course_index1 != course_index2) {
+					hard_clash_matrix.set(course_index1, course_index2, true);
+				}
+			}
+		}
+	}
+
     //Here we update the preferred rooms for the activities
     for (int i = 0; i < r.size(); i++) {
         for (int j = 0; j < data.size(); j++) {
@@ -90,6 +101,7 @@ Activities::Activities(Students& s, Teachers& t, Rooms& r) : data(), soft_clash_
         }
     }
 
+    
 
     blame.resize(data.size());
 

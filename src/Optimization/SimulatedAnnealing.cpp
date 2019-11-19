@@ -40,10 +40,8 @@ void simmulated_annealing(Activities& a, Rooms& r, Students& s, Teachers& t) {
 	a.update_blame_all(r, t, s);
 	int current_score = a.objective();
 
-	//objective_print(a, r, t, s);
-
     while (current_score > 100) {
-		std::cout << current_score << "\n";
+		//std::cout << current_score << "\n";
 
 		int activity1 = a.blame_activity();
 

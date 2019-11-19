@@ -35,6 +35,7 @@ int soft_clashes_score(Activities& as, int a) {
 	return score;
 }
 
+//can i take this out of the objective function??
 int hard_clashes_score(Activities& as, int a) {
     int score = 0;
 
