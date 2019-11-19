@@ -13,9 +13,12 @@
 #include "Optimization/SimulatedAnnealing.hpp"
 #include "Optimization/Objective.hpp"
 
-//TODO: fix multiple hour courses
+#include "Backtracking/HardConstraints.hpp"
+
 //TODO: add lunch break soft constraint
 //TODO: make soft constraints consider multiple hours
+
+//TODO: find out why backtracking cannot do hard clashes
 
 int main() {
 

@@ -15,7 +15,7 @@ int next_room(Activities& a, Students& s, Teachers& t, Rooms& r, int activity, i
 
     for (int i = 0; i < r.size(); i++) {
         Room& room = r[i];
-        if (room.Capacity > a[activity].students.size() && a.get(timeslot, i) == -1) {
+        if (room.Capacity >= a[activity].students.size() && room_free(a, timeslot, i, activity)) { 
             return i;
         }
     }
@@ -30,16 +30,9 @@ int next_timeslot(Activities& a, Rooms& r, Students& s, Teachers& t, Matrix<bool
     random_shuffle(timeslots.begin(), timeslots.end()); 
 
     for (int x : timeslots) {
-        //should this be < or <= ??
-        bool valid = !bad_timeslots[x][activity] && x + a[activity].number_of_hours <= NO_TS/5;
+        int d = a[activity].number_of_hours;
 
-        for (int h = 0; h < a[activity].number_of_hours; h++) {
-            int ts = x + h;
-
-            valid &= wednesday_afternoon_free(ts) && no_hard_clash(a, r, activity, ts) && teachers_no_bad_timeslots(a, t, ts, activity) && teachers_pathway_one_day_off(a, t, ts, activity);
-        }
-
-        if (valid) return x;
+        if (!bad_timeslots[x][activity] && wednesday_afternoon_free(x, d) && teachers_no_bad_timeslots(a, t, x, activity) && teachers_pathway_one_day_off(a, t, x, activity)) return x;
 	}
 
     return -1;
@@ -57,8 +50,6 @@ bool backtrack(Activities& a, Students& s, Teachers& t, Rooms& r) {
 
     while (activity_index < a.size()) {
 
-        std::cout << activity_index << "\n";
-
         int timeslot = next_timeslot(a, r, s, t,bad_timeslots, activity_index);
         
         if (timeslot == -1) {
@@ -72,7 +63,6 @@ bool backtrack(Activities& a, Students& s, Teachers& t, Rooms& r) {
             activity_index--;
             a.unset(activity_index);
 
-
         } else {
             int room = next_room(a, s, t, r, activity_index, timeslot);
 
@@ -81,6 +71,7 @@ bool backtrack(Activities& a, Students& s, Teachers& t, Rooms& r) {
                 bad_timeslots.set(timeslot, activity_index, true);
 
             } else {
+
                 //we have found a new timeslot room pair!
                 a.set(activity_index, timeslot, room);
                 activity_index++;

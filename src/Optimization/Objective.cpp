@@ -111,8 +111,8 @@ void objective_print(Activities& a, Rooms& r, Teachers& t, Students& s) {
     }
 
     //std::cout << "OverCapacity:\t\t"  << score1 << std::endl;
-    std::cout << "SoftClashes:\t" << score2 << std::endl;
-    //std::cout << "HardClashes:\t\t" << score3 << std::endl;
-    //std::cout << "WednesdayAfternoon:\t" <<score4 << std::endl;
-    //std::cout << "PathwayOne:\t\t" << score5 << std::endl;
+    std::cout << "SoftClashes:\t\t" << score2 << std::endl;
+    std::cout << "HardClashes:\t\t" << score3 << std::endl;
+    std::cout << "WednesdayAfternoon:\t" <<score4 << std::endl;
+    std::cout << "PathwayOne:\t\t" << score5 << std::endl;
 }
