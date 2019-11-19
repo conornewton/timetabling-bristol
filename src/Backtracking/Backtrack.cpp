@@ -47,8 +47,6 @@ bool backtrack(Activities& a, Students& s, Teachers& t, Rooms& r) {
     bad_timeslots.set_all(false);
 
     while (activity_index < a.size()) {
-        std::cout << activity_index << std::endl;
-
         int timeslot = next_timeslot(a, r, s, t,bad_timeslots, activity_index);
         
         if (timeslot == -1) {

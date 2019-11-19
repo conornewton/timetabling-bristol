@@ -45,12 +45,9 @@ void simmulated_annealing(Activities& a, Rooms& r, Students& s, Teachers& t) {
 
 		int activity1 = a.blame_activity();
 
-		//std::cout << activity1 << ", " << a.blame[activity1] << "\n";
-
 		int room1 = a[activity1].room;
 		int time1 = a[activity1].timeslot;
 
-		//TODO: make this choose a valid timeslot and valid room instead of completely random
 		int room2 = a.random_preferred_room(activity1);
 		int time2 = time_rand(mt1);
 
@@ -64,7 +61,6 @@ void simmulated_annealing(Activities& a, Rooms& r, Students& s, Teachers& t) {
 
 		if (!acceptance(current_score, new_score, current_temp)) {
 
-			//std::cout << "rejected (" << a.objective() << ")\n";
 			//we undo the swap if it is not accepted
 			a.simple_swap(time1, room1, time2, room2, r, t, s);
 

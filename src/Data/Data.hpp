@@ -1,6 +1,6 @@
 #pragma once
 
-#define NO_TS 50
+#define NO_TS 45
 
 //Filepath to CSV files
 #define FILEPATH_ACTIVITIES "data/ACTIVITIES.csv"
