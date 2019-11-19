@@ -29,33 +29,42 @@ void simmulated_annealing(Activities& a, Rooms& r, Students& s, Teachers& t) {
 
     const double initial_temp = 1000;
 	const double final_temp = 1;
-	const double cooling_rate = 0.999;
+	const double cooling_rate = 0.99;
+
+	std::random_device rd1;
+	std::mt19937 mt1(rd1());
+
+	std::uniform_int_distribution<int> room_rand(0, r.size() - 1);
+	std::uniform_int_distribution<int> time_rand(0, NO_TS - 1);
 
 	double current_temp = initial_temp;
 
 	a.update_blame_all(r, t, s);
-
-	srand(time(NULL));
+	int current_score = a.objective();
 
     while (current_temp > final_temp) {
-		int current_score = a.objective();
+		current_score = a.objective();
 
-		//std::cout << current_score << std::endl;
+		//std::cout << current_score << "\n";
 
 		int activity1 = a.blame_activity();
 
-		//std::cout << activity1 <<  "\n";
+		//std::cout << activity1 << ", " << a.blame[activity1] << "\n";
 
 		int room1 = a[activity1].room;
 		int time1 = a[activity1].timeslot;
 
-		int room2 = rand() % r.size();
-		int time2 = rand() % NO_TS;
+		//TODO: make this choose a valid timeslot and valid room instead of random
+		int room2 = room_rand(mt1);
+		int time2 = time_rand(mt1);
+
+		//std::cout << room2 << ", " << time1 << "\n";
 
 		a.simple_swap(time1, room1, time2, room2, r, t, s);
 
-
 		if (!acceptance(current_score, a.objective(), current_temp)) {
+
+			//std::cout << "rejected (" << a.objective() << ")\n";
 			
 			//we undo the swap if it is not accepted
 			a.simple_swap(time1, room1, time2, room2, r, t, s);

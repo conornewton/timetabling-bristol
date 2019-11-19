@@ -13,11 +13,12 @@
 #include "Optimization/SimulatedAnnealing.hpp"
 #include "Optimization/Objective.hpp"
 
+//TODO: add prefered rooms
 //TODO: add lecturer hours they cant make
 //TODO: fix multiple hour courses
-//TODO: loop through preferred activities instead.
+//TODO: compute hard clash matrix
 
-//TODO: implement good way of undoing changes
+//Maybe: use boost libraries for matrices
 
 int main() {
 
@@ -25,9 +26,13 @@ int main() {
 
     //We use these containers for all of our data throughout
     Students s;
+    std::cout << "Student loading complete" << std::endl;
     Rooms r;
+    std::cout << "Room loading complete" << std::endl;
     Teachers t; 
+    std::cout << "Teacher loading complete" << std::endl;
     Activities a(s, t, r);
+
 
     //Stage 1 - Bactracking
     if (backtrack(a, s, t, r)) {
@@ -37,11 +42,16 @@ int main() {
 
         int score = objective(a, r, t, s);
 
+      
         std::cout << "Initial Score: " << score << std::endl;
 
+        auto start = std::chrono::high_resolution_clock::now();
         simmulated_annealing(a, r, s, t);
+        auto stop = std::chrono::high_resolution_clock::now();
 
-        std::cout << "Optimization Complete" << std::endl;
+        auto duration = std::chrono::duration_cast<std::chrono::seconds>(stop - start);
+
+        std::cout << "Optimization Complete (" << duration.count() << ")" << std::endl;
 
         score = objective(a, r, t, s);
         std::cout << "Final Score: " << score << std::endl;
@@ -51,5 +61,6 @@ int main() {
     }
 
     return 0;
+
 }
  

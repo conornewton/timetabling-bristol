@@ -4,10 +4,11 @@
 
 #include <iostream>
 
-constexpr int w1 = 10;
-constexpr int w2 = 5;
-constexpr int w3 = 100;
-constexpr int w4 = 100;
+constexpr int w1 = 2;
+constexpr int w2 = 1;
+constexpr int w3 = 20;
+constexpr int w4 = 20;
+constexpr int w5 = 20;
 
 int capacity_weight(Activity& a, Rooms& r) {
 	int score = 0;
@@ -24,8 +25,9 @@ int capacity_weight(Activity& a, Rooms& r) {
 int soft_clashes_score(Activities& as, int a) {
     int score = 0;
 
-	for (int b = a + 1; b < as.size(); b++) {
-		if (as[a].timeslot == as[b].timeslot) {
+	for (int b = 0; b < as.size(); b++) {
+
+		if (b != a && as[a].timeslot == as[b].timeslot) {
 			score += as.soft_clash(a, b);
 		}
 	}
@@ -33,12 +35,11 @@ int soft_clashes_score(Activities& as, int a) {
 	return score;
 }
 
-
 int hard_clashes_score(Activities& as, int a) {
     int score = 0;
 
-	for (int b = a + 1; b < as.size(); b++) {
-		if (as[a].timeslot == as[b].timeslot) {
+	for (int b = 0; b < as.size(); b++) {
+		if (b != a && as[a].timeslot == as[b].timeslot) {
             if (as.hard_clash(a, b)) score += 1;
 		}
 	}
@@ -56,18 +57,30 @@ int wednesday_afternoon_free(Activity& a) {
     return 0;
 }
 
-int objective_activity_verbose(Activities& as, int a, Rooms& r, Teachers& t, Students& s) {
 
-    std::cout << w1 * capacity_weight(as[a], r) << std::endl;
-    std::cout << w2 * soft_clashes_score(as, a) << std::endl;
-    std::cout << w3 * hard_clashes_score(as, a) << std::endl;
-    std::cout << w4 * wednesday_afternoon_free(as[a]) << std::endl;
+bool teachers_pathway_one_day_off(Activities& a, Teachers& t, int activity) {
+    int score = 0;
 
-    return w1 * capacity_weight(as[a], r) + w2 * soft_clashes_score(as, a) + w3 * hard_clashes_score(as, a) + w4 * wednesday_afternoon_free(as[a]);
+    Activity& act = a[activity];
+
+    for (int teacher : act.teachers) {
+       if (t[teacher].pathway_one) {
+
+			if (a.no_hours_per_day(teacher, 0) != 0 
+                && a.no_hours_per_day(teacher, 1) != 0 
+                && a.no_hours_per_day(teacher, 2) != 0
+                && a.no_hours_per_day(teacher, 3) != 0
+                && a.no_hours_per_day(teacher, 4) != 0) {
+				score += 1; //TODO: make this the minimum of the hours per day
+			}
+		}
+    }
+
+    return score;
 }
 
 int objective_activity(Activities& as, const int& a, Rooms& r, Teachers& t, Students& s) {
-    return w1 * capacity_weight(as[a], r) + w2 * soft_clashes_score(as, a) + w3 * hard_clashes_score(as, a) + w4 * wednesday_afternoon_free(as[a]);
+    return w1 * capacity_weight(as[a], r) + w2 * soft_clashes_score(as, a) + w3 * hard_clashes_score(as, a) + w4 * wednesday_afternoon_free(as[a]) + w5 * teachers_pathway_one_day_off(as, t, a);
 }
 
 

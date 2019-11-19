@@ -1,3 +1,5 @@
+#pragma once
+
 #include "../Data/Activities.hpp"
 #include "../Data/Rooms.hpp"
 #include "../Data/Teachers.hpp"

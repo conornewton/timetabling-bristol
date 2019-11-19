@@ -1,3 +1,5 @@
+#pragma once
+
 #include "../Data/Activities.hpp"
 
 //time-related hard constraints

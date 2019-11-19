@@ -50,9 +50,10 @@ public:
 	int objective();
 	int blame_activity();
 
+	int no_hours_per_day(const int& t, const int& day);
+
 	std::string to_string(Rooms& r);
 
-	
 	std::vector<int> blame;
 
 private:
@@ -65,4 +66,5 @@ private:
 	SparseMatrix<bool> hard_clash_matrix;
 
 	Matrix<int> timetable;
+	Matrix<char> hours_per_day;
 };

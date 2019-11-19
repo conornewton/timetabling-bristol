@@ -9,7 +9,7 @@ struct Teacher {
 	bool pathway_one = false;          //does the teacher require a resarch day, (If it is false then they dont have a research day)
 	std::vector<int> activities;       //Activities the teacher is teaching
 	std::vector<int> bad_timeslots;    //timeslots the teacher is not free during
-	
+
 	std::string to_string();
 };
 

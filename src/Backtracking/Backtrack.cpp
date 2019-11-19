@@ -44,6 +44,7 @@ bool backtrack(Activities& a, Students& s, Teachers& t, Rooms& r) {
 
     //TS x Activity Matrix
     Matrix<bool> bad_timeslots(NO_TS, a.size());
+    bad_timeslots.set_all(false);
 
     while (activity_index < a.size()) {
         int timeslot = next_timeslot(a, r, s, t,bad_timeslots, activity_index);
@@ -55,7 +56,6 @@ bool backtrack(Activities& a, Students& s, Teachers& t, Rooms& r) {
             }
 
             //backtrack here
-            
             bad_timeslots.set_row(activity_index, false);
             activity_index--;
             a.unset(activity_index);

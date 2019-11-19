@@ -29,7 +29,7 @@ std::string Activities::to_string(Rooms& r) {
     return s.str();
 }
 
-Activities::Activities(Students& s, Teachers& t, Rooms& r) : data(), soft_clash_matrix(0), hard_clash_matrix(false), timetable(NO_TS, r.size()) {
+Activities::Activities(Students& s, Teachers& t, Rooms& r) : data(), soft_clash_matrix(0), hard_clash_matrix(false), timetable(NO_TS, r.size()), hours_per_day(t.size(), 5) {
     //First load course data from CSV's
     CSV csv_activities(FILEPATH_ACTIVITIES);
 
@@ -48,6 +48,8 @@ Activities::Activities(Students& s, Teachers& t, Rooms& r) : data(), soft_clash_
 		data.push_back(a);
 	}
 
+    std::cout << "Activities loaded" << std::endl;
+
     //Here we enroll students on there activities
     for (int i = 0; i < s.size(); i++) {
         Student& st = s[i];
@@ -57,6 +59,8 @@ Activities::Activities(Students& s, Teachers& t, Rooms& r) : data(), soft_clash_
         }
     }
 
+    std::cout << "Enrolling complete" << std::endl;
+
     //We also enroll the staff on there activities
     for (int i = 0; i < t.size(); i++) {
         Teacher& st = t[i];
@@ -65,6 +69,8 @@ Activities::Activities(Students& s, Teachers& t, Rooms& r) : data(), soft_clash_
             data[activity].teachers.push_back(i);
         }
     }
+
+    std::cout << "staff enrolling complete" << std::endl;
 
     for (int i = 0; i < s.size(); i++) {
         Student& stu = s[i];
@@ -84,6 +90,7 @@ Activities::Activities(Students& s, Teachers& t, Rooms& r) : data(), soft_clash_
     blame.resize(data.size());
 
     timetable.set_all(-1);
+    hours_per_day.set_all(0);
 }
 
 Activity& Activities::operator[](const int& a) {
@@ -106,10 +113,20 @@ void Activities::set(const int& activity, int& timeslot, int& room) {
     timetable.set(timeslot, room, activity);
     data[activity].room = room;
     data[activity].timeslot = timeslot;
+
+    
+    for (int& teach : data[activity].teachers) {
+        hours_per_day.set(teach, day_of_week(timeslot), hours_per_day.get(teach, day_of_week(timeslot) + 1));
+    }
 }
 
 void Activities::unset(const int& activity) {
     timetable.set(data[activity].timeslot, data[activity].room, -1);
+
+    for (int& teach : data[activity].teachers) {
+        hours_per_day.set(teach, day_of_week(data[activity].timeslot), hours_per_day.get(teach, day_of_week(data[activity].timeslot) -1));
+    }
+
     data[activity].room = -1;
     data[activity].timeslot = -1;
 }
@@ -128,17 +145,27 @@ void Activities::simple_swap(const int& ts1, const int& rm1, const int& ts2, con
         data[course1].timeslot = ts2;
         data[course1].room = rm2;
         
+        
+        for (int& teach : data[course1].teachers) {
+            hours_per_day.set(teach, day_of_week(ts2), hours_per_day.get(teach, day_of_week(ts2) + 1));
+            hours_per_day.set(teach, day_of_week(ts1), hours_per_day.get(teach, day_of_week(ts1) - 1));
+        }
+    
     }
 
     if (course2 != -1) {
         data[course2].timeslot = ts1;
         data[course2].room = rm1;
 
+        for (int& teach : data[course2].teachers) {
+            hours_per_day.set(teach, day_of_week(ts2), hours_per_day.get(teach, day_of_week(ts2) - 1));
+            hours_per_day.set(teach, day_of_week(ts1), hours_per_day.get(teach, day_of_week(ts1) + 1));
+        }
+
     }
 
     update_blame(ts1, r, t, s);
     update_blame(ts2, r, t, s);
-
 }
 
 int Activities::size() {
@@ -167,8 +194,8 @@ int Activities::objective() {
 }
 
 int Activities::blame_activity() {
-    std::random_device rd;
-	std::mt19937 rng(rd());
+    static std::random_device rd;
+	static std::mt19937 rng(rd());
 
 	int blame_sum = 0;
 
@@ -185,4 +212,7 @@ int Activities::blame_activity() {
 	}
 
     return r;
+}
+int Activities::no_hours_per_day(const int& t, const int& day) {
+    return hours_per_day.get(t, day);
 }
