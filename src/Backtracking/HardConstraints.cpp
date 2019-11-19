@@ -9,7 +9,7 @@ bool wednesday_afternoon_free(int ts) {
 	return ts < hours_per_day * 2 + 5 || ts >= hours_per_day * 3;
 }
 
-//TODO: can i make this faster?
+
 bool no_hard_clash(Activities& a, Rooms& rs, const int& activity, const int& ts) {
     for (int r = 0; r < rs.size(); r++) {
         int b = a.get(ts, r);

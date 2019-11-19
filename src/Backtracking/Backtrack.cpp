@@ -30,7 +30,16 @@ int next_timeslot(Activities& a, Rooms& r, Students& s, Teachers& t, Matrix<bool
     random_shuffle(timeslots.begin(), timeslots.end()); 
 
     for (int x : timeslots) {
-        if (!bad_timeslots[x][activity] && wednesday_afternoon_free(x) && no_hard_clash(a, r, activity, x) && teachers_no_bad_timeslots(a, t, x, activity) && teachers_pathway_one_day_off(a, t, x, activity)) return x;
+        //should this be < or <= ??
+        bool valid = !bad_timeslots[x][activity] && x + a[activity].number_of_hours <= NO_TS/5;
+
+        for (int h = 0; h < a[activity].number_of_hours; h++) {
+            int ts = x + h;
+
+            valid &= wednesday_afternoon_free(ts) && no_hard_clash(a, r, activity, ts) && teachers_no_bad_timeslots(a, t, ts, activity) && teachers_pathway_one_day_off(a, t, ts, activity);
+        }
+
+        if (valid) return x;
 	}
 
     return -1;
@@ -47,6 +56,9 @@ bool backtrack(Activities& a, Students& s, Teachers& t, Rooms& r) {
     bad_timeslots.set_all(false);
 
     while (activity_index < a.size()) {
+
+        std::cout << activity_index << "\n";
+
         int timeslot = next_timeslot(a, r, s, t,bad_timeslots, activity_index);
         
         if (timeslot == -1) {

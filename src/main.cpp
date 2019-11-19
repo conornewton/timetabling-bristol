@@ -13,10 +13,9 @@
 #include "Optimization/SimulatedAnnealing.hpp"
 #include "Optimization/Objective.hpp"
 
-//TODO: add lecturer hours they cant make
 //TODO: fix multiple hour courses
-//TODO: compute hard clash matrix
 //TODO: add lunch break soft constraint
+//TODO: make soft constraints consider multiple hours
 
 int main() {
 

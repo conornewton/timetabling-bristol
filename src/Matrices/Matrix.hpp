@@ -26,6 +26,10 @@ public:
 		data[a + b * width] = val;
 	}
 
+	void set_n(const int& a, const int& b, T val, const int& c) {
+		std::fill_n(data.begin() + a + b * width, c, val);
+	}
+
 	void set_all(T val) {
 		std::fill(data.begin(), data.end(), val);
 	}

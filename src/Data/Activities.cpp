@@ -15,7 +15,7 @@
 std::string Activity::to_string(Rooms& r) {
     std::stringstream s;
 
-    s << ID << ", " << name << ", " << type << ", " << dept << ", " << number_of_hours << ", " << timeslot << ", " << r[room].Name << std::endl;
+    s << ID << ", " << name << ", " << type << ", " << dept << ", " << number_of_hours << ", " << timeslot << ", " << room << ", " << students.size() << std::endl;
 
     return s.str();
 }
@@ -126,21 +126,23 @@ int Activities::get(const int& timeslot, const int& room) {
 } 
 
 void Activities::set(const int& activity, int& timeslot, int& room) {
-    timetable.set(timeslot, room, activity);
+
+    timetable.set_n(timeslot, room, activity, data[activity].number_of_hours);
+    
     data[activity].room = room;
     data[activity].timeslot = timeslot;
 
     
     for (int& teach : data[activity].teachers) {
-        hours_per_day.set(teach, day_of_week(timeslot), hours_per_day.get(teach, day_of_week(timeslot) + 1));
+        hours_per_day.set(teach, day_of_week(timeslot), hours_per_day.get(teach, day_of_week(timeslot)) + data[activity].number_of_hours);
     }
 }
 
 void Activities::unset(const int& activity) {
-    timetable.set(data[activity].timeslot, data[activity].room, -1);
+    timetable.set_n(data[activity].timeslot, data[activity].room, -1, data[activity].number_of_hours);
 
     for (int& teach : data[activity].teachers) {
-        hours_per_day.set(teach, day_of_week(data[activity].timeslot), hours_per_day.get(teach, day_of_week(data[activity].timeslot) -1));
+        hours_per_day.set(teach, day_of_week(data[activity].timeslot), hours_per_day.get(teach, day_of_week(data[activity].timeslot)) - data[activity].number_of_hours);
     }
 
     data[activity].room = -1;
@@ -163,8 +165,8 @@ void Activities::simple_swap(const int& ts1, const int& rm1, const int& ts2, con
         
         
         for (int& teach : data[course1].teachers) {
-            hours_per_day.set(teach, day_of_week(ts2), hours_per_day.get(teach, day_of_week(ts2) + 1));
-            hours_per_day.set(teach, day_of_week(ts1), hours_per_day.get(teach, day_of_week(ts1) - 1));
+            hours_per_day.set(teach, day_of_week(ts2), hours_per_day.get(teach, day_of_week(ts2)) + data[course1].number_of_hours);
+            hours_per_day.set(teach, day_of_week(ts1), hours_per_day.get(teach, day_of_week(ts1)) - data[course1].number_of_hours);
         }
     
     }
@@ -174,8 +176,8 @@ void Activities::simple_swap(const int& ts1, const int& rm1, const int& ts2, con
         data[course2].room = rm1;
 
         for (int& teach : data[course2].teachers) {
-            hours_per_day.set(teach, day_of_week(ts2), hours_per_day.get(teach, day_of_week(ts2) - 1));
-            hours_per_day.set(teach, day_of_week(ts1), hours_per_day.get(teach, day_of_week(ts1) + 1));
+            hours_per_day.set(teach, day_of_week(ts2), hours_per_day.get(teach, day_of_week(ts2)) - data[course2].number_of_hours);
+            hours_per_day.set(teach, day_of_week(ts1), hours_per_day.get(teach, day_of_week(ts1)) + data[course2].number_of_hours);
         }
 
     }
