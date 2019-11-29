@@ -52,7 +52,7 @@ bool backtrack(Activities& a, Students& s, Teachers& t, Rooms& r) {
 
         int timeslot = next_timeslot(a, r, s, t,bad_timeslots, activity_index);
 
-        std::cout << activity_index << std::endl;
+        //std::cout << activity_index << std::endl;
         
         if (timeslot == -1) {
             //could not find a solution

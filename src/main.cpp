@@ -18,7 +18,6 @@
 //TODO: implement Kempe swaps
 
 //TODO: add lunch break soft constraint
-//TODO: find out why backtracking cannot do hard clashes
 
 int main() {
 
@@ -29,8 +28,7 @@ int main() {
     Rooms r;
     Teachers t; 
     Activities a(s, t, r);
-
-
+    
     //Stage 1 - Bactracking
     if (backtrack(a, s, t, r)) {
         //Stage 2 - Optimization

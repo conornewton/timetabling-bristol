@@ -21,15 +21,15 @@ inline double unif() {
 //probability acceptance function
 inline bool acceptance(int current_score, int new_score, double temp) {
 
-	return new_score < current_score;
-	//return (new_score < current_score || unif() < std::exp(((double)current_score - new_score) / temp));
+	//return new_score < current_score;
+	return (new_score < current_score || unif() < std::exp(((double)current_score - new_score) / temp));
 }
 
 void simmulated_annealing(Activities& a, Rooms& r, Students& s, Teachers& t) {
 
     const double initial_temp = 300;
 	const double final_temp = 50;
-	const double cooling_rate = 0.999;
+	const double cooling_rate = 0.9995;
 
 	std::random_device rd1;
 	std::mt19937 mt1(rd1());
@@ -41,7 +41,7 @@ void simmulated_annealing(Activities& a, Rooms& r, Students& s, Teachers& t) {
 	int current_score = a.objective();
 
     while (current_temp > final_temp) {
-		//std::cout << current_score << "\n";
+		std::cout << current_score << "\n";
 
 		int activity1 = a.blame_activity();
 

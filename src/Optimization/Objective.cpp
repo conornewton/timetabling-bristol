@@ -68,7 +68,7 @@ int wednesday_afternoon_free(Activity& a) {
 }
 
 
-bool teachers_pathway_one_day_off(Activities& a, Teachers& t, int activity) {
+int teachers_pathway_one_day_off(Activities& a, Teachers& t, int activity) {
     int score = 0;
 
     Activity& act = a[activity];
@@ -119,7 +119,7 @@ void objective_print(Activities& a, Rooms& r, Teachers& t, Students& s) {
         score5 += teachers_pathway_one_day_off(a, t, i);
     }
 
-    //std::cout << "OverCapacity:\t\t"  << score1 << std::endl;
+    std::cout << "OverCapacity:\t\t"  << score1 << std::endl;
     std::cout << "SoftClashes:\t\t" << score2 << std::endl;
     std::cout << "StaffClashes:\t\t" << score3 << std::endl;
     std::cout << "WednesdayAfternoon:\t" <<score4 << std::endl;
