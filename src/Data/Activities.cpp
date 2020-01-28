@@ -99,11 +99,9 @@ Activities::Activities(Students& s, Teachers& t, Rooms& r) : data(), soft_clash_
     //Here we update the preferred rooms for the activities
     for (int i = 0; i < r.size(); i++) {
         for (int j = 0; j < data.size(); j++) {
-            if (r[i].Capacity >= data[j].students.size()) data[j].preferred_rooms.push_back(i);
+            if (r[i].Capacity >= data[j].students.size() - data[j].students.size()/4) data[j].preferred_rooms.push_back(i);
         }
     }
-
-    
 
     blame.resize(data.size());
 
@@ -159,8 +157,6 @@ void Activities::simple_swap(const int& ts1, const int& rm1, const int& ts2, con
     timetable.set(ts1, rm1, course2);
     timetable.set(ts2, rm2, course1);
 
-    // std::cout << course1 << ", " << course2 << std::endl;
-
     if (course1 != -1) {
         data[course1].timeslot = ts2;
         data[course1].room = rm2;
@@ -187,6 +183,11 @@ void Activities::simple_swap(const int& ts1, const int& rm1, const int& ts2, con
     update_blame(ts1, r, t, s);
     update_blame(ts2, r, t, s);
 }
+
+void Activities::kempe_swap(const int& ts1, const int& rm1, const int& ts2, const int& rm2, Rooms& r, Teachers& t, Students& s) {
+
+}
+
 
 int Activities::size() {
     return data.size();
@@ -245,15 +246,18 @@ int Activities::random_preferred_room(const int& a) {
     return data[a].preferred_rooms[rand_room(mt1)];
 }
 
-int Activities::random_timeslot(const int& a) {
+//make sure teacher is free and not on pathway one
+int Activities::random_timeslot(const int& a, Teachers& t) {
     std::random_device rd1;
 	std::mt19937 mt1(rd1());
     std::uniform_int_distribution<int> rand_room(0, NO_TS - 1);
 
-    int time; 
+    int time;
+    bool teachers_free;
 
     do {
         time = rand_room(mt1);
+
     } while(day_of_week(time) != day_of_week(time + data[a].number_of_hours) || !wednesday_afternoon_free(time, data[a].number_of_hours));
 
     return time;

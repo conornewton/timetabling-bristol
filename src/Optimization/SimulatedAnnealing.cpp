@@ -29,11 +29,7 @@ void simmulated_annealing(Activities& a, Rooms& r, Students& s, Teachers& t) {
 
     const double initial_temp = 300;
 	const double final_temp = 50;
-	const double cooling_rate = 0.9995;
-
-	std::random_device rd1;
-	std::mt19937 mt1(rd1());
-	std::uniform_int_distribution<int> time_rand(0, NO_TS - 1 - (NO_TS / 5 * 3 - NO_TS/5 * 2 + 5));
+	const double cooling_rate = 0.999;
 
 	double current_temp = initial_temp;
 
@@ -41,7 +37,7 @@ void simmulated_annealing(Activities& a, Rooms& r, Students& s, Teachers& t) {
 	int current_score = a.objective();
 
     while (current_temp > final_temp) {
-		std::cout << current_score << "\n";
+		std::cout << current_score << std::endl;
 
 		int activity1 = a.blame_activity();
 
@@ -49,21 +45,24 @@ void simmulated_annealing(Activities& a, Rooms& r, Students& s, Teachers& t) {
 		int time1 = a[activity1].timeslot;
 
 		int room2 = a.random_preferred_room(activity1);
-		int time2 = a.random_timeslot(activity1);
+		int time2 = a.random_timeslot(activity1, t);
 
 		a.simple_swap(time1, room1, time2, room2, r, t, s);
 
 		int new_score = a.objective();
 
-		if (!acceptance(current_score, new_score, current_temp)) {
 
+		if (!acceptance(current_score, new_score, current_temp)) {
 			//we undo the swap if it is not accepted
 			a.simple_swap(time1, room1, time2, room2, r, t, s);
 
+			//TODO: here we try a kempe swap:
+			//a.kempe_swap(time1, room1, time2, room2, t, s);
+
 		} else {
 			current_score = new_score;
+			current_temp *= cooling_rate;
 		}
-
-        current_temp *= cooling_rate;
+        
     }
 }

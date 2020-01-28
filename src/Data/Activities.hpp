@@ -42,6 +42,7 @@ public:
 	void set(const int& activity, int& timeslot, int& room);  //sets the timeslot and room of the specified activity
 
 	void simple_swap(const int& ts1, const int& rm1, const int& ts2, const int& rm2, Rooms& r, Teachers& t, Students& s); //performs simple swap
+	void kempe_swap(const int& ts1, const int& rm1, const int& ts2, const int& rm2, Rooms& r, Teachers& t, Students& s); //performs a kempe swap
 
 	void unset(const int& activity);
 	int size();
@@ -51,7 +52,7 @@ public:
 	int blame_activity();
 
 	int random_preferred_room(const int& a);
-	int random_timeslot(const int& a);
+	int random_timeslot(const int& a, Teachers& t);
 
 	int no_hours_per_day(const int& t, const int& day);
 

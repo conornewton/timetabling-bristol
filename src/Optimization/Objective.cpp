@@ -7,8 +7,8 @@
 constexpr int w1 = 2;
 constexpr int w2 = 1;
 constexpr int w3 = 20;
-constexpr int w4 = 1000;
-constexpr int w5 = 0;
+constexpr int w4 = 100;
+constexpr int w5 = 100;
 
 int capacity_weight(Activity& a, Rooms& r) {
 	int score = 0;
@@ -67,7 +67,6 @@ int wednesday_afternoon_free(Activity& a) {
     return score;
 }
 
-
 int teachers_pathway_one_day_off(Activities& a, Teachers& t, int activity) {
     int score = 0;
 
@@ -75,7 +74,6 @@ int teachers_pathway_one_day_off(Activities& a, Teachers& t, int activity) {
 
     for (int teacher : act.teachers) {
        if (t[teacher].pathway_one) {
-
 			if (a.no_hours_per_day(teacher, 0) != 0 
                 && a.no_hours_per_day(teacher, 1) != 0 
                 && a.no_hours_per_day(teacher, 2) != 0

@@ -15,9 +15,16 @@
 
 #include "Backtracking/HardConstraints.hpp"
 
-//TODO: implement Kempe swaps
+//TODO: implement Kempe swaps next!!!!
+
+
 
 //TODO: add lunch break soft constraint
+//TODO: add teacher bad timeslots!!!
+//TODO: remove staff-pathwayone and wednesday afternoon from the optimization step.
+//TODO: preserve pathwayone lecturers during optimization
+
+//TODO: why is something ending up in wednesday afternoon?
 
 int main() {
 
