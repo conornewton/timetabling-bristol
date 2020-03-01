@@ -150,6 +150,7 @@ void Activities::unset(const int& activity) {
 }
 
 //TOOO: make sure contraints are satisfied
+//TODO: consider multi hour courses!
 void Activities::simple_swap(const int& ts1, const int& rm1, const int& ts2, const int& rm2, Rooms& r, Teachers& t, Students& s) {
     int course1 = timetable.get(ts1, rm1);
     int course2 = timetable.get(ts2, rm2);
@@ -185,6 +186,10 @@ void Activities::simple_swap(const int& ts1, const int& rm1, const int& ts2, con
 }
 
 void Activities::kempe_swap(const int& ts1, const int& rm1, const int& ts2, const int& rm2, Rooms& r, Teachers& t, Students& s) {
+    int activity1 = get(ts1, room1);
+    int activity2 = get(ts2, room2);
+
+    
 
 }
 

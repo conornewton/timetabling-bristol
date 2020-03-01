@@ -16,15 +16,11 @@
 #include "Backtracking/HardConstraints.hpp"
 
 //TODO: implement Kempe swaps next!!!!
-
-
-
+//TODO: make sure multi-hour simple swaps work correctly
 //TODO: add lunch break soft constraint
 //TODO: add teacher bad timeslots!!!
-//TODO: remove staff-pathwayone and wednesday afternoon from the optimization step.
-//TODO: preserve pathwayone lecturers during optimization
 
-//TODO: why is something ending up in wednesday afternoon?
+bool judge(Students& s, Rooms& r, Teachers& t, Activities& a);
 
 int main() {
 
@@ -35,6 +31,7 @@ int main() {
     Rooms r;
     Teachers t; 
     Activities a(s, t, r);
+    
     
     //Stage 1 - Bactracking
     if (backtrack(a, s, t, r)) {
@@ -60,11 +57,35 @@ int main() {
         objective_print(a, r, t, s);
         std::cout << a.objective() << std::endl;
 
+        if (judge(s, r, t, a)) {
+            std::cout << "[+] Solution has been checked and is valid" << std::endl;
+        } else {
+            std::cout << "[-] Solution has been checked and is invalid" << std::endl;
+        }
+
+
     } else {
         std::cout << "Finding an initial solution failed :(" << std::endl;
     }
 
+   
+    
     return 0;
 
+}
+
+//verifies that the solution produced satisfies the requirements.
+bool judge(Students& s, Rooms& r, Teachers& t, Activities& a) {
+    //check all activities has a room booked for each hour
+    for (int i = 0; i < a.size(); i++) {
+        Activity& act = a[i];
+        for (int j = 0; j < act.number_of_hours; j++) {
+            if (a.get(act.timeslot + j, act.room) != i) {
+                return false;
+            }
+        }
+    }
+
+    return true;
 }
  
